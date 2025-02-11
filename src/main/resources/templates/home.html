@@ -1,0 +1,25 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyWebGame | Home</title>
+    <link rel="stylesheet" th:href=@{/css/theme.css} />
+</head>
+<body>
+<!-- Include header component -->
+<!-- e.g., Thymeleaf: th:replace="fragments/header :: header" -->
+<!-- or server-side include / your chosen method -->
+
+<header th:replace="fragments/header :: header"></header>
+
+<main>
+    <h1>Welcome to MyWebGame</h1>
+    <p>Explore the world, fight monsters, and become the ultimate champion!</p>
+    <!-- Possibly more content -->
+</main>
+
+<!-- Include footer component -->
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

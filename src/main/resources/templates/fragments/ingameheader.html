@@ -1,0 +1,27 @@
+<header class="game-header" xmlns:th="http://www.thymeleaf.org">
+    <div class="logo">
+        <h1>Underground Guardian</h1>
+    </div>
+    <div class="player-stats">
+        <span class="nickname" th:text="${user.gameCharacter.nickName}">g0g4yy2</span>
+        <div class="stat-container">
+            <label>EXP</label>
+            <progress class="exp-bar" th:value="${user.gameCharacter.experience}" max="100"></progress>
+        </div>
+        <div class="stat-container">
+            <label>HP</label>
+            <progress class="health-bar" th:value="${user.gameCharacter.health}" max="100"></progress>
+        </div>
+        <div class="stat-container">
+            <label>Energy</label>
+            <progress class="energy-bar" th:value="${user.gameCharacter.energy}" max="100"></progress>
+        </div>
+        <span class="level">Level: <span th:text="${user.gameCharacter.level}">0</span></span>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/dashboard">Home</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+</header>

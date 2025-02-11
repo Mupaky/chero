@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Training Hall</title>
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+    <link rel="stylesheet" th:href="@{/css/training.css}" />
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="underground-theme">
+
+<!-- In-Game Header -->
+<header th:replace="fragments/ingameheader :: header"></header>
+
+<main class="training-container">
+    <!-- Left Side Menu -->
+    <aside class="sidebar">
+        <nav th:replace="fragments/menu :: menu"></nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <section class="main-content">
+        <!-- Training Section -->
+        <div class="training-area">
+            <h1>Training Hall</h1>
+            <p>Use your gold to train and increase your stats.</p>
+
+            <div class="stat-training">
+                <div class="stat-block">
+                    <span>Strength: <span th:text="${user.gameCharacter.stats.strength}"></span></span>
+                    <button class="train-btn" onclick="trainStat('strength')">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <div class="stat-block">
+                    <span>Agility: <span th:text="${user.gameCharacter.stats.agility}"></span></span>
+                    <button class="train-btn" onclick="trainStat('agility')">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <div class="stat-block">
+                    <span>Intelligence: <span th:text="${user.gameCharacter.stats.intelligence}"></span></span>
+                    <button class="train-btn" onclick="trainStat('intelligence')">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <div class="stat-block">
+                    <span>Endurance: <span th:text="${user.gameCharacter.stats.endurance}"></span></span>
+                    <button class="train-btn" onclick="trainStat('endurance')">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <p class="gold-info">Gold Remaining: <span th:text="${user.gameCharacter.resources.get(T(com.supplyboost.chero.game.character.model.ResourceType).GOLD)}"></span></p>
+        </div>
+
+        <!-- Story Section -->
+        <div class="story-section">
+            <h2>The Path to Becoming a Champion</h2>
+            <p>
+                Deep beneath the surface, where the last flickers of light surrender to the abyss, a war is brewing.
+                The **Underground** is no longer just a prison for forgotten creatures—it is their battleground.
+                Beasts of the shadows grow stronger, feeding off the fear of the weak.
+            </p>
+
+            <p>
+                A warrior who dares to **face the darkness unprepared** is nothing but a fool marching toward death.
+                To **survive**, to **conquer**, to **become a legend**—you must forge your body and mind into an unbreakable weapon.
+            </p>
+
+            <h3>Why Must You Train?</h3>
+            <ul>
+                <li>**Strength** grants you the power to crush your enemies.</li>
+                <li>**Agility** ensures you are faster than the monsters lurking in the dark.</li>
+                <li>**Intelligence** allows you to outsmart the creatures of the abyss.</li>
+                <li>**Endurance** keeps you standing when all others have fallen.</li>
+            </ul>
+
+            <p>
+                The whispers of fallen warriors echo through the halls, warning of those who dared to enter the Underground without training.
+                Their names are forgotten, their stories erased from history.
+                But **you still have a choice**—train, grow, and rise as the **Champion of the Underground**.
+            </p>
+
+            <p><strong>Will you be the next legend... or just another lost soul in the dark?</strong></p>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<script>
+    function trainStat(stat) {
+        fetch(`/train/${stat}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload(); // Refresh to update stats
+            } else {
+                alert("Not enough gold!");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+
+</body>
+</html>

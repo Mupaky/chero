@@ -1,0 +1,96 @@
+/* Training Page */
+.training-container {
+    display: flex;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #222;
+    color: #d1d1d1;
+}
+
+/* Container for stat blocks */
+.stat-training {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+
+/* Individual stat block styling */
+.stat-block {
+    background-color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 0 0 auto;
+}
+
+/* Train button styling */
+.train-btn {
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.train-btn:hover {
+    background-color: #e67e22;
+}
+
+/* Gold info styling */
+.gold-info {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* Story Section */
+.story-section {
+    background: #222;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #f39c12;
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.3);
+    color: #d1d1d1;
+    text-align: center;
+}
+
+.story-section h2 {
+    color: #f39c12;
+    text-transform: uppercase;
+}
+
+.story-section h3 {
+    color: #e74c3c;
+    margin-top: 15px;
+}
+
+.story-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.story-section ul li {
+    background: #333;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #f39c12;
+}
+

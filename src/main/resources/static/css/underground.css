@@ -1,0 +1,61 @@
+/* Main Container */
+.underground-container {
+    display: flex;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #222;
+    color: #d1d1d1;
+}
+
+/* Container for Challenge and Reward Cards */
+.challenge-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Challenge Card Styling */
+.challenge-card, .reward-card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.challenge-card h2, .reward-card h3 {
+    color: #f39c12;
+}
+
+.challenge-card p, .reward-card p {
+    color: #d1d1d1;
+}
+
+.monster-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* Fight Button Styling */
+.fight-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.fight-btn:hover {
+    background-color: #c0392b;
+}

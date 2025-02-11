@@ -1,0 +1,236 @@
+/* Global Styles */
+body.underground-theme {
+    background-color: #1a1a1a;
+    color: #d1d1d1;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+}
+
+/* In-Game Header */
+.game-header {
+    background: #222;
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f39c12;
+}
+
+/* Logo */
+.game-header .logo h1 {
+    font-size: 24px;
+    color: #f39c12;
+    text-transform: uppercase;
+}
+
+/* Navigation */
+.game-header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.game-header nav ul li {
+    display: inline;
+}
+
+.game-header nav ul li a {
+    color: #f39c12;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.game-header nav ul li a:hover {
+    color: #e74c3c;
+}
+
+/* Player Stats */
+.player-stats {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #333;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.nickname {
+    font-weight: bold;
+    color: #f39c12;
+    font-size: 18px;
+}
+
+.stat-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-container label {
+    font-size: 14px;
+    color: #fff;
+}
+
+/* Ensure progress bars are visible */
+progress {
+    width: 80px;
+    height: 10px;
+    appearance: none; /* Removes default browser styling */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Style for Firefox */
+progress::-moz-progress-bar {
+    background: #f39c12;
+}
+
+/* Style for Chrome/Safari */
+progress::-webkit-progress-bar {
+    background-color: #222;
+    border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #f39c12;
+    border-radius: 5px;
+}
+
+/* Ensure visibility in all browsers */
+.exp-bar, .health-bar, .energy-bar {
+    border: 1px solid #f39c12;
+    background-color: #333;
+}
+
+
+.level {
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Menu */
+.sidebar {
+    width: 220px;
+    background: #333;
+    padding: 20px;
+    height: 100vh;
+    border-right: 3px solid #f39c12;
+}
+
+.game-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.game-menu ul li {
+    margin: 15px 0;
+}
+
+.game-menu ul li a {
+    color: #d1d1d1;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.game-menu ul li a:hover {
+    background: #f39c12;
+    color: #1a1a1a;
+    border-radius: 5px;
+}
+
+/* Main Content */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+/* Character Profile */
+.profile-section {
+    display: flex;
+    align-items: center;
+    background: #444;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #f39c12;
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.5);
+}
+
+.character-picture img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #f39c12;
+}
+
+.character-info {
+    margin-left: 20px;
+}
+
+.character-info h2 {
+    color: #f39c12;
+    margin-bottom: 10px;
+}
+
+/* Edit Profile Button */
+.edit-profile-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.edit-profile-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Game Story */
+.game-intro {
+    background: #222;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #f39c12;
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.3);
+}
+
+.game-intro h2 {
+    color: #f39c12;
+}
+
+.game-intro ul {
+    list-style: square;
+    padding-left: 20px;
+}
+
+.game-intro ul li {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #222;
+    color: #d1d1d1;
+    border-top: 3px solid #f39c12;
+}
+
+

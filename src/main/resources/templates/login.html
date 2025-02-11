@@ -1,0 +1,27 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyWebGame | Login</title>
+    <link rel="stylesheet" th:href=@{/css/theme.css} />
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<main>
+    <h2>Login</h2>
+    <form method="POST" th:action="@{/auth/login}" th:object="${loginRequest}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+
+        <button type="submit">Login</button>
+    </form>
+</main>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

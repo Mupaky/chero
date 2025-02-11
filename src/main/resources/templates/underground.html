@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Underground Challenges</title>
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+    <link rel="stylesheet" th:href="@{/css/underground.css}" />
+</head>
+<body class="underground-theme">
+
+<!-- In-Game Header -->
+<header th:replace="fragments/ingameheader :: header"></header>
+
+<main class="underground-container">
+    <!-- Left Side Menu -->
+    <aside class="sidebar">
+        <nav th:replace="fragments/menu :: menu"></nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <section class="main-content">
+        <h1>Underground Challenges</h1>
+        <p>Select a challenge to face formidable monsters and earn rewards.</p>
+
+        <div class="challenge-cards">
+            <!-- Easy Level Card -->
+            <div class="challenge-card">
+                <h2>Easy Level</h2>
+                <img src="path/to/easy-monster.jpg" alt="Easy Level Monster" class="monster-image">
+                <p>A timid creature lurks in the shadows, awaiting a challenger.</p>
+                <button class="fight-btn" onclick="startFight('easy')">Start Fight</button>
+            </div>
+
+            <!-- Medium Level Card -->
+            <div class="challenge-card">
+                <h2>Medium Level</h2>
+                <img src="path/to/medium-monster.jpg" alt="Medium Level Monster" class="monster-image">
+                <p>A cunning adversary stands guard, testing the mettle of brave warriors.</p>
+                <button class="fight-btn" onclick="startFight('medium')">Start Fight</button>
+            </div>
+
+            <!-- Hard Level Card -->
+            <div class="challenge-card">
+                <h2>Hard Level</h2>
+                <img src="path/to/hard-monster.jpg" alt="Hard Level Monster" class="monster-image">
+                <p>An ancient beast awakens, challenging only the most valiant heroes.</p>
+                <button class="fight-btn" onclick="startFight('hard')">Start Fight</button>
+            </div>
+
+            <!-- Reward Card for Easy Level -->
+            <div class="reward-card">
+                <h3>Reward</h3>
+                <p>50 Gold Coins</p>
+            </div>
+
+            <!-- Reward Card for Hard Level -->
+            <div class="reward-card">
+                <h3>Reward</h3>
+                <p>200 Gold Coins</p>
+            </div>
+
+            <!-- Reward Card for Medium Level -->
+            <div class="reward-card">
+                <h3>Reward</h3>
+                <p>100 Gold Coins</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<script>
+    function startFight(difficulty) {
+        // Implement the logic to start the fight based on the selected difficulty
+        alert('Starting fight at ' + difficulty + ' level!');
+    }
+</script>
+
+</body>
+</html>

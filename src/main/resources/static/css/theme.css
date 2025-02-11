@@ -1,0 +1,109 @@
+/* static/css/theme.css */
+
+/* General resets and basic styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.4;
+    background-color: #f3f3f3;
+    color: #333;
+}
+
+/* Header styles */
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #283e4a;
+    padding: 1rem 2rem;
+    color: #fff;
+}
+
+.logo a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-menu ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-menu li {
+    display: inline;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    background-color: #3f5969;
+    border-radius: 4px;
+}
+
+/* Footer styles */
+.main-footer {
+    background-color: #283e4a;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 2rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Page layout for main content */
+main {
+    padding: 2rem;
+    min-height: calc(100vh - 140px); /* adjust to keep footer at bottom */
+}
+
+/* Forms */
+form {
+    max-width: 400px;
+    margin: 2rem auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 6px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #283e4a;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #3f5969;
+}

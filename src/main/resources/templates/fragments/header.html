@@ -1,0 +1,14 @@
+<!-- templates/fragments/header.html -->
+<header class="main-header" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="logo">
+        <a href="/">MyWebGame</a>
+    </div>
+    <nav class="nav-menu">
+        <ul>
+            <li><a th:href=@{/}>Home</a></li>
+            <li><a th:href=@{/about}>About</a></li>
+            <li><a th:href=@{/auth/login}>Login</a></li>
+            <li><a th:href=@{/auth/register}>Register</a></li>
+        </ul>
+    </nav>
+</header>

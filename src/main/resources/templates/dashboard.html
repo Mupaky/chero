@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Underground Guardian - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+</head>
+<body class="underground-theme">
+
+<!-- In-Game Header Fragment -->
+<header th:replace="fragments/ingameheader :: header"></header>
+
+<main class="dashboard-container">
+    <!-- Left Side: In-Game Menu -->
+    <aside class="sidebar">
+        <nav th:replace="fragments/menu :: menu"></nav>
+    </aside>
+
+    <!-- Middle Section: Profile & Gameplay Guide -->
+    <section class="content">
+        <!-- Character Profile Section -->
+        <div class="profile-section">
+            <div class="character-picture">
+                <img th:src="@{/images/character.png}" alt="Character Avatar">
+            </div>
+            <div class="character-info">
+                <h2 th:text="${user.username}">Nickname</h2>
+                <div class="progress-bar">
+                    <label>Experience</label>
+                    <progress th:value="${user.gameCharacter.experience}" max="100"></progress>
+                </div>
+                <div class="progress-bar">
+                    <label>Health</label>
+                    <progress th:value="${user.gameCharacter.health}" max="100"></progress>
+                </div>
+                <div class="progress-bar">
+                    <label>Energy</label>
+                    <progress th:value="${user.gameCharacter.energy}" max="100"></progress>
+                </div>
+                <p><strong>Level:</strong> <span th:text="${user.gameCharacter.level}">1</span></p>
+                <p><strong>Strength:</strong> <span th:text="${user.gameCharacter.stats.strength}"></span></p>
+                <p><strong>Agility:</strong> <span th:text="${user.gameCharacter.stats.agility}"></span></p>
+                <p><strong>Intelligence:</strong> <span th:text="${user.gameCharacter.stats.intelligence}"></span></p>
+                <p><strong>Endurance:</strong> <span th:text="${user.gameCharacter.stats.endurance}"></span></p>
+
+                <button class="edit-profile-btn">Edit Profile</button>
+            </div>
+        </div>
+
+        <!-- Underground Story & Game Explanation -->
+        <div class="game-intro">
+            <h2>Welcome to the Underground</h2>
+            <p>
+                Beneath the streets of the city lies a dark, unknown world—**the Underground**.
+                A place where monstrous creatures are born from the shadows, seeking their chance to rise into the real world.
+                **You are the last line of defense!** As a Guardian of the Underground, your mission is simple:
+            </p>
+            <ul>
+                <li>Venture deep into the underground tunnels.</li>
+                <li>Hunt and eliminate creatures before they escape.</li>
+                <li>Gain **Experience**, **Gold**, and **Artifacts** to grow stronger.</li>
+                <li>Manage your **Energy** carefully—running out leaves you vulnerable.</li>
+                <li>Use strategy to level up your **Strength, Agility, Intelligence, and Endurance**.</li>
+            </ul>
+            <p>Do you have what it takes to keep the creatures from reaching the surface? **Enter the Underground now!**</p>
+        </div>
+    </section>
+</main>
+
+<!-- Footer Fragment -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+</body>
+</html>

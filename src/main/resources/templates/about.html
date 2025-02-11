@@ -1,0 +1,22 @@
+<!-- templates/about.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyWebGame | About</title>
+    <link rel="stylesheet" th:href=@{/css/theme.css} />
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<main>
+    <h1>About MyWebGame</h1>
+    <p>
+        MyWebGame is a turn-based strategy game set in a medieval fantasy world.
+        Engage with players across the globe, form alliances, and conquer your foes.
+    </p>
+</main>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
