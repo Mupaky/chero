@@ -2,10 +2,14 @@ package com.supplyboost.chero.game.character.service;
 
 import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.game.character.model.ResourceType;
-import com.supplyboost.chero.game.character.model.Stats;
 import com.supplyboost.chero.game.character.repository.CharacterRepository;
 import com.supplyboost.chero.game.inventory.model.Inventory;
 import com.supplyboost.chero.game.inventory.service.InventoryService;
+import com.supplyboost.chero.game.item.model.Item;
+import com.supplyboost.chero.game.item.service.ItemService;
+import com.supplyboost.chero.game.stats.model.StatType;
+import com.supplyboost.chero.game.stats.model.Stats;
+import com.supplyboost.chero.game.stats.service.StatsService;
 import com.supplyboost.chero.user.model.User;
 import com.supplyboost.chero.utils.Generator;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +29,15 @@ public class CharacterService {
 
     private final CharacterRepository characterRepository;
     private final InventoryService inventoryService;
+    private final ItemService itemService;
+    private final StatsService statsService;
 
     @Autowired
-    public CharacterService(CharacterRepository characterRepository, InventoryService inventoryService) {
+    public CharacterService(CharacterRepository characterRepository, InventoryService inventoryService, ItemService itemService, StatsService statsService) {
         this.characterRepository = characterRepository;
         this.inventoryService = inventoryService;
+        this.itemService = itemService;
+        this.statsService = statsService;
     }
 
     public void addResourceAmount(UUID characterId, ResourceType type, int amount) {
@@ -57,12 +65,47 @@ public class CharacterService {
         Inventory inventory = inventoryService.createInventory(gameCharacter);
         log.info("Successfully create new game character with id [%s] and Nick Name [%s]"
                 .formatted(gameCharacter.getId(), gameCharacter.getNickName()));
+        Stats stats = statsService.createCharacterStats(gameCharacter);
 
         gameCharacter.setInventory(inventory);
+        gameCharacter.setStats(stats);
         characterRepository.save(gameCharacter);
         return gameCharacter;
     }
 
+    public void buyItem(UUID characterId, Item item){
+        log.info("Item name: [%s]".formatted(item.getName()));
+        GameCharacter character = characterRepository.getReferenceById(characterId);
+        log.info("Character name: [%s]".formatted(character.getNickName()));
+
+        if(spendMoney(characterId, item.getPrice())){
+            itemService.cloneTemplate(item, character.getInventory());
+            log.info("Character resource: [%s]".formatted(character.getResources().get(ResourceType.GOLD)));
+        }
+
+        characterRepository.save(character);
+    }
+
+    public void trainStat(UUID gameCharacterId , UUID id, StatType statType) {
+        int price = statsService.getStatPrice(id, statType);
+
+        if(spendMoney(gameCharacterId, price)){
+            statsService.increaseStat(id, statType, 1);
+        }
+    }
+
+    public boolean spendMoney(UUID characterId, int amount){
+        GameCharacter character = characterRepository.getReferenceById(characterId);
+
+        if(character.getResources().get(ResourceType.GOLD) >= amount){
+            character.getResources().put(
+                    ResourceType.GOLD,
+                    character.getResources().get(ResourceType.GOLD) - amount);
+            characterRepository.save(character);
+            return true;
+        }
+        return false;
+    }
 
     private Map<ResourceType, Integer> initializeResources() {
         Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
@@ -74,17 +117,6 @@ public class CharacterService {
         return resources;
     }
 
-    private Stats initializeStats(){
-        return Stats.builder()
-                .agility(5)
-                .strength(5)
-                .intelligence(5)
-                .endurance(5)
-                .build();
-    }
-
-
-
     private GameCharacter getCharacter(UUID characterId) {
         Optional<GameCharacter> character = characterRepository.findById(characterId);
 
@@ -95,13 +127,11 @@ public class CharacterService {
         return character.get();
     }
 
-
     private GameCharacter initializeCharacter(User user){
         Map<ResourceType, Integer> resources = initializeResources();
         return GameCharacter.builder()
                 .owner(user)
                 .nickName(Generator.generateNickName())
-                .stats(initializeStats())
                 .expForNextLevelUp(1000)
                 .experience(0)
                 .currentHealth(1000)

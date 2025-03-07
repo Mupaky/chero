@@ -6,7 +6,9 @@ import com.supplyboost.chero.dto.RegisterRequest;
 import com.supplyboost.chero.dto.UserEditRequest;
 import com.supplyboost.chero.exception.DomainException;
 import com.supplyboost.chero.game.character.model.GameCharacter;
+import com.supplyboost.chero.game.character.model.ResourceType;
 import com.supplyboost.chero.game.character.service.CharacterService;
+import com.supplyboost.chero.security.AuthenticationMetadata;
 import com.supplyboost.chero.subscription.service.SubscriptionService;
 import com.supplyboost.chero.user.model.User;
 import com.supplyboost.chero.user.model.UserRole;
@@ -14,6 +16,9 @@ import com.supplyboost.chero.user.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +29,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
 
     private final UserRepository userRepository;
@@ -109,6 +114,21 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new DomainException("User with this username does not exist."));
+
+        return new AuthenticationMetadata(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole(),
+                user.isActive());
+    }
+
+
 
 
     private User initializeUser(RegisterRequest registerRequest){

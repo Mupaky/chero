@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Underground Guardian - Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+
 </head>
 <body class="underground-theme">
 
@@ -12,7 +13,7 @@
 
 <main class="dashboard-container">
     <!-- Left Side: In-Game Menu -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <nav th:replace="fragments/menu :: menu"></nav>
     </aside>
 
@@ -38,10 +39,10 @@
                     <progress th:value="${user.gameCharacter.energy}" max="100"></progress>
                 </div>
                 <p><strong>Level:</strong> <span th:text="${user.gameCharacter.level}">1</span></p>
-                <p><strong>Strength:</strong> <span th:text="${user.gameCharacter.stats.strength}"></span></p>
-                <p><strong>Agility:</strong> <span th:text="${user.gameCharacter.stats.agility}"></span></p>
-                <p><strong>Intelligence:</strong> <span th:text="${user.gameCharacter.stats.intelligence}"></span></p>
-                <p><strong>Endurance:</strong> <span th:text="${user.gameCharacter.stats.endurance}"></span></p>
+                <p><strong>Strength:</strong> <span th:text="${user.gameCharacter.stats.stats.['STRENGTH']}"></span></p>
+                <p><strong>Agility:</strong> <span th:text="${user.gameCharacter.stats.stats.['AGILITY']}"></span></p>
+                <p><strong>Intelligence:</strong> <span th:text="${user.gameCharacter.stats.stats.['INTELLIGENCE']}"></span></p>
+                <p><strong>Endurance:</strong> <span th:text="${user.gameCharacter.stats.stats.['ENDURANCE']}"></span></p>
 
                 <button class="edit-profile-btn">Edit Profile</button>
             </div>

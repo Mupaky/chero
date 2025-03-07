@@ -64,5 +64,14 @@ public class AuthController {
         return "redirect:/game/dashboard";
     }
 
+    @GetMapping("/logout")
+    public ModelAndView logout(HttpSession session){
+        session.invalidate();
+        ModelAndView modelAndView = new ModelAndView("redirect:/login");
+        modelAndView.addObject("loginRequest", new LoginRequest());
+
+        return modelAndView;
+    }
+
 
 }

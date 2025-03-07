@@ -1,10 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Inventory</title>
+    <!-- Main theme styles -->
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+    <!-- Inventory-specific styles -->
+    <link rel="stylesheet" th:href="@{/css/inventory.css}" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body class="underground-theme">
+
+<!-- In-Game Header -->
+<header th:replace="fragments/ingameheader :: header"></header>
+
+<main class="inventory-container">
+    <!-- Left Side Menu -->
+    <aside class="sidebar">
+        <nav th:replace="fragments/menu :: menu"></nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <section class="inventory-content">
+
+        <!-- Wearing Items Section -->
+        <section class="worn-items">
+            <h2>Equipped Items</h2>
+            <div class="worn-grid">
+                <!-- Example Equipped Item: Helmet -->
+                <div class="worn-item" data-item-id="1">
+                    <img src="path/to/helmet.jpg" alt="Helmet">
+                    <p>Helmet</p>
+                    <button class="unequip-btn" onclick="showUnequipModal(1)">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- Example Equipped Item: Armor -->
+                <div class="worn-item" data-item-id="2">
+                    <img src="path/to/armor.jpg" alt="Armor">
+                    <p>Armor</p>
+                    <button class="unequip-btn" onclick="showUnequipModal(2)">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- Example Equipped Item: Weapon -->
+                <div class="worn-item" data-item-id="3">
+                    <img src="path/to/weapon.jpg" alt="Weapon">
+                    <p>Weapon</p>
+                    <button class="unequip-btn" onclick="showUnequipModal(3)">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- Example Equipped Item: Boots -->
+                <div class="worn-item" data-item-id="4">
+                    <img src="path/to/boots.jpg" alt="Boots">
+                    <p>Boots</p>
+                    <button class="unequip-btn" onclick="showUnequipModal(4)">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inventory Items Section -->
+        <section class="inventory-list">
+            <h2>Your Items</h2>
+            <div  class="inventory-grid">
+                <!-- Inventory Item Card Example -->
+                <div th:each="item : ${user.gameCharacter.inventory.items}" class="inventory-card" data-item-id="101">
+                    <img th:src="@{'/images/items/' + ${item.image}}" th:alt="${item.name}">
+                    <h3 th:text="${item.name}">Item Name</h3>
+                    <p class="description" th:text="${item.description}">Item Description</p>
+                    <div class="stats">
+                        <p><strong>Strength:</strong> <span th:text="${item.stats.stats['STRENGTH']}">0</span></p>
+                        <p><strong>Agility:</strong> <span th:text="${item.stats.stats['AGILITY']}">0</span></p>
+                        <p><strong>Intelligence:</strong> <span th:text="${item.stats.stats['INTELLIGENCE']}">0</span></p>
+                        <p><strong>Endurance:</strong> <span th:text="${item.stats.stats['ENDURANCE']}">0</span></p>
+                    </div>
+
+                    <p class="level" th:text="'Requires Level: ' + ${item.levelNeeded}">Requires Level</p>
+                    <div class="card-actions">
+                        <button class="equip-btn" onclick="equipItem(101)">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="sell-btn" onclick="sellItem(101)">
+                            <i class="fa fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</main>
+
+<!-- Modal for Unequipping Items -->
+<div id="unequip-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="hideUnequipModal()">&times;</span>
+        <h2>Unequip Item</h2>
+        <p>Do you want to unequip this item?</p>
+        <button class="unequip-confirm-btn" id="unequip-confirm-btn">Unequip</button>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<script>
+    // Function to equip an item
+    function equipItem(itemId) {
+      // Implement equip logic here
+      alert('Equipping item ' + itemId);
+    }
+
+    // Function to sell an item
+    function sellItem(itemId) {
+      // Implement sell logic here
+      alert('Selling item ' + itemId);
+    }
+
+    // Modal functions for unequipping
+    var currentUnequipItemId = null;
+
+    function showUnequipModal(itemId) {
+      currentUnequipItemId = itemId;
+      document.getElementById("unequip-modal").style.display = "block";
+    }
+
+    function hideUnequipModal() {
+      document.getElementById("unequip-modal").style.display = "none";
+    }
+
+    document.getElementById("unequip-confirm-btn").addEventListener("click", function() {
+      // Implement unequip logic here
+      alert('Unequipping item ' + currentUnequipItemId);
+      hideUnequipModal();
+    });
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      var modal = document.getElementById("unequip-modal");
+      if (event.target == modal) {
+        hideUnequipModal();
+      }
+    }
+</script>
+
+<script th:src="@{js/toggleMenu.js}"></script>
 
 </body>
 </html>

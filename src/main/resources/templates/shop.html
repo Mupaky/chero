@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Shop</title>
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+    <link rel="stylesheet" th:href="@{/css/shop.css}" />
+    <!-- Font Awesome for icons if needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body class="underground-theme">
+
+<!-- In-Game Header -->
+<header th:replace="fragments/ingameheader :: header"></header>
+
+<main class="shop-container">
+    <!-- Left Side Menu -->
+    <aside class="sidebar">
+        <nav th:replace="fragments/menu :: menu"></nav>
+    </aside>
+
+    <!-- Shop Items Section -->
+    <section class="shop-content">
+        <h1>Shop</h1>
+        <p>Select an item to purchase for your adventure.</p>
+        <div class="shop-grid">
+            <!-- Iterate over shopItems passed from the controller -->
+            <div th:each="item : ${shopItems}" class="shop-card" th:attr="data-item-id=${item.id}">
+                <img th:src="@{'/images/items/' + ${item.image}}" th:alt="${item.name}">
+                <h3 th:text="${item.name}">Item Name</h3>
+                <p class="description" th:text="${item.description}">Item Description</p>
+                <div class="stats">
+                    <p><strong>Strength:</strong> <span th:text="${item.stats.stats['STRENGTH']}">0</span></p>
+                    <p><strong>Agility:</strong> <span th:text="${item.stats.stats['AGILITY']}">0</span></p>
+                    <p><strong>Intelligence:</strong> <span th:text="${item.stats.stats['INTELLIGENCE']}">0</span></p>
+                    <p><strong>Endurance:</strong> <span th:text="${item.stats.stats['ENDURANCE']}">0</span></p>
+                </div>
+                <p class="level" th:text="'Requires Level: ' + ${item.levelNeeded}">Requires Level</p>
+                <p class="price" th:text="'Price: ' + ${item.price}">Price</p>
+                <form th:action="@{/game/shop/buy}" method="post">
+                    <input type="hidden" name="itemId" th:value="${item.id}" />
+                    <button type="submit" class="buy-btn">
+                        <i class="fa fa-shopping-cart"></i> Buy
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<script th:src="@{js/toggleMenu.js}"></script>
 
 </body>
 </html>

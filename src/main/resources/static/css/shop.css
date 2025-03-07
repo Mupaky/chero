@@ -1,0 +1,76 @@
+/* shop.css */
+
+/* Overall Shop Container */
+.shop-container {
+    display: flex;
+}
+
+/* Main Content Area for the Shop */
+.shop-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #222;
+    color: #d1d1d1;
+}
+
+/* Grid Layout for Shop Items */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Shop Card Styling */
+.shop-card {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+}
+
+.shop-card:hover {
+    transform: scale(1.02);
+}
+
+/* Shop Card Image */
+.shop-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Shop Card Title */
+.shop-card h3 {
+    color: #f39c12;
+    margin: 10px 0 5px 0;
+}
+
+/* Shop Card Description */
+.shop-card .description {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* Shop Card Stats */
+.shop-card .stats {
+    font-size: 13px;
+    margin: 5px 0;
+}
+
+/* Buy Button Styling */
+.buy-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.buy-btn:hover {
+    background-color: #c0392b;
+}

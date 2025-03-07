@@ -24,7 +24,6 @@ public class Inventory {
     @OneToOne
     private GameCharacter owner;
 
-    @Builder.Default
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     private List<Item> items = new ArrayList<>();
 }

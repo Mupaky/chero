@@ -21,39 +21,28 @@
 
     <!-- Main Content Area -->
     <section class="main-content">
-        <!-- Training Section -->
         <div class="training-area">
             <h1>Training Hall</h1>
             <p>Use your gold to train and increase your stats.</p>
+            <p>Gold: <span th:text="${user.gameCharacter.resources.get(T(com.supplyboost.chero.game.character.model.ResourceType).GOLD)}"></span></p>
 
             <div class="stat-training">
-                <div class="stat-block">
-                    <span>Strength: <span th:text="${user.gameCharacter.stats.strength}"></span></span>
-                    <button class="train-btn" onclick="trainStat('strength')">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
-                <div class="stat-block">
-                    <span>Agility: <span th:text="${user.gameCharacter.stats.agility}"></span></span>
-                    <button class="train-btn" onclick="trainStat('agility')">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
-                <div class="stat-block">
-                    <span>Intelligence: <span th:text="${user.gameCharacter.stats.intelligence}"></span></span>
-                    <button class="train-btn" onclick="trainStat('intelligence')">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
-                <div class="stat-block">
-                    <span>Endurance: <span th:text="${user.gameCharacter.stats.endurance}"></span></span>
-                    <button class="train-btn" onclick="trainStat('endurance')">
-                        <i class="fa fa-plus"></i>
-                    </button>
+                <div class="stat-block" th:each="stat : ${T(com.supplyboost.chero.game.stats.model.StatType).values()}">
+
+                    <span th:text="${stat.name()}">Stat Name</span>
+
+                    <span th:text="${user.gameCharacter.stats.stats[stat.name()]} ?: 0">0</span>
+
+                    <form th:action="@{/game/train}" method="post">
+                        <input type="hidden" name="stat" th:value="${stat.name()}"/>
+                        <button class="train-btn" type="submit">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </form>
+
                 </div>
             </div>
 
-            <p class="gold-info">Gold Remaining: <span th:text="${user.gameCharacter.resources.get(T(com.supplyboost.chero.game.character.model.ResourceType).GOLD)}"></span></p>
         </div>
 
         <!-- Story Section -->
@@ -91,22 +80,6 @@
 
 <!-- Footer -->
 <footer th:replace="fragments/footer :: footer"></footer>
-
-<script>
-    function trainStat(stat) {
-        fetch(`/train/${stat}`, {
-            method: 'POST'
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.reload(); // Refresh to update stats
-            } else {
-                alert("Not enough gold!");
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    }
-</script>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.supplyboost.chero.game.character.model;
 
 import com.supplyboost.chero.game.inventory.model.Inventory;
 import com.supplyboost.chero.game.item.model.Item;
+import com.supplyboost.chero.game.stats.model.Stats;
 import com.supplyboost.chero.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,9 +30,6 @@ public class GameCharacter {
     @Column
     private String nickName;
 
-    @Embedded
-    private Stats stats;
-
     @Column(nullable = false)
     private int experience;
 
@@ -54,6 +52,9 @@ public class GameCharacter {
     private int level;
 
     @OneToOne
+    private Stats stats;
+
+    @OneToOne
     private Inventory inventory;
 
     @Builder.Default
@@ -71,8 +72,8 @@ public class GameCharacter {
     @ElementCollection
     @CollectionTable(name = "`character_resources`", joinColumns = @JoinColumn(name = "`character_id`"))
     @MapKeyColumn(name = "resource_type")
+    @MapKeyEnumerated(EnumType.STRING)
     @Column(name = "quantity")
-    @Enumerated(EnumType.STRING)
     private Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
 
 }

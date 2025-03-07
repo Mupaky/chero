@@ -1,7 +1,7 @@
 package com.supplyboost.chero.game.item.model;
 
-import com.supplyboost.chero.game.character.model.Stats;
 import com.supplyboost.chero.game.inventory.model.Inventory;
+import com.supplyboost.chero.game.stats.model.Stats;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +26,10 @@ public class Item {
     private String name;
 
     @Column(nullable = false)
-    private String Description;
+    private String description;
+
+    @Column(nullable = false)
+    private int levelNeeded;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = true)
@@ -36,6 +39,7 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemType type;
 
+    @OneToOne
     private Stats stats;
 
     @Column(nullable = false)

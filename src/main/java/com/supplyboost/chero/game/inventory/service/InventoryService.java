@@ -27,6 +27,10 @@ public class InventoryService {
         return inventory;
     }
 
+    public void saveInventory(Inventory inventory){
+        inventoryRepository.save(inventory);
+    }
+
     private Inventory initializeInventory(GameCharacter gameCharacter){
         return Inventory.builder()
                 .owner(gameCharacter)
