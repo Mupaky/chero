@@ -1,7 +1,10 @@
 package com.supplyboost.chero.game.controller;
 
 
+import com.supplyboost.chero.game.character.events.NotificationService;
+import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.game.character.service.CharacterService;
+import com.supplyboost.chero.game.fight.service.FightService;
 import com.supplyboost.chero.game.item.model.Item;
 import com.supplyboost.chero.game.shop.model.Shop;
 import com.supplyboost.chero.game.shop.service.ShopService;
@@ -16,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -25,18 +29,22 @@ public class GameController {
     private final UserService userService;
     private final ShopService shopService;
     private final CharacterService characterService;
+    private final FightService fightService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public GameController(UserService userService, ShopService shopService, CharacterService characterService, StatsService statsService) {
+    public GameController(UserService userService, ShopService shopService, CharacterService characterService, StatsService statsService, FightService fightService, NotificationService notificationService) {
         this.userService = userService;
         this.shopService = shopService;
         this.characterService = characterService;
+        this.fightService = fightService;
+        this.notificationService = notificationService;
     }
 
 
     @GetMapping("/dashboard")
     public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
-        User user = userService.getById(authenticationMetadata.getUserId());
+        User user = userService.findByUsername(authenticationMetadata.getUsername());
 
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("user", user);
@@ -78,6 +86,24 @@ public class GameController {
 
         ModelAndView modelAndView = new ModelAndView("underground");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("notifications", user.getNotifications());
+
+        user.getNotifications().clear();
+        userService.save(user);
+
+        return modelAndView;
+    }
+
+    @PostMapping("/fight")
+    public ModelAndView fight(@RequestParam String difficulty,
+                                   @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
+        User user = userService.getById(authenticationMetadata.getUserId());
+
+        fightService.handleFight(user, difficulty);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/game/underground");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("notifications", user.getNotifications());
 
         return modelAndView;
     }

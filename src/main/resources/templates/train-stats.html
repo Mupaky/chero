@@ -24,7 +24,6 @@
         <div class="training-area">
             <h1>Training Hall</h1>
             <p>Use your gold to train and increase your stats.</p>
-            <p>Gold: <span th:text="${user.gameCharacter.resources.get(T(com.supplyboost.chero.game.character.model.ResourceType).GOLD)}"></span></p>
 
             <div class="stat-training">
                 <div class="stat-block" th:each="stat : ${T(com.supplyboost.chero.game.stats.model.StatType).values()}">

@@ -22,13 +22,22 @@
         <h1>Underground Challenges</h1>
         <p>Select a challenge to face formidable monsters and earn rewards.</p>
 
+        <div th:if="${notifications}">
+            <div th:each="notification : ${notifications}" class="alert alert-info">
+                <span th:text="${notification}"></span>
+            </div>
+        </div>
+
         <div class="challenge-cards">
             <!-- Easy Level Card -->
             <div class="challenge-card">
                 <h2>Easy Level</h2>
                 <img src="path/to/easy-monster.jpg" alt="Easy Level Monster" class="monster-image">
                 <p>A timid creature lurks in the shadows, awaiting a challenger.</p>
-                <button class="fight-btn" onclick="startFight('easy')">Start Fight</button>
+                <form th:action="@{/game/fight}" method="post">
+                    <input type="hidden" name="difficulty" value="EASY"/>
+                    <button class="fight-btn" type="submit">Start Fight</button>
+                </form>
             </div>
 
             <!-- Medium Level Card -->
@@ -36,7 +45,10 @@
                 <h2>Medium Level</h2>
                 <img src="path/to/medium-monster.jpg" alt="Medium Level Monster" class="monster-image">
                 <p>A cunning adversary stands guard, testing the mettle of brave warriors.</p>
-                <button class="fight-btn" onclick="startFight('medium')">Start Fight</button>
+                <form th:action="@{/game/fight}" method="post">
+                    <input type="hidden" name="difficulty" value="MEDIUM"/>
+                    <button class="fight-btn" type="submit">Start Fight</button>
+                </form>
             </div>
 
             <!-- Hard Level Card -->
@@ -44,19 +56,22 @@
                 <h2>Hard Level</h2>
                 <img src="path/to/hard-monster.jpg" alt="Hard Level Monster" class="monster-image">
                 <p>An ancient beast awakens, challenging only the most valiant heroes.</p>
-                <button class="fight-btn" onclick="startFight('hard')">Start Fight</button>
+                <form th:action="@{/game/fight}" method="post">
+                    <input type="hidden" name="difficulty" value="HARD"/>
+                    <button class="fight-btn" type="submit">Start Fight</button>
+                </form>
             </div>
 
             <!-- Reward Card for Easy Level -->
             <div class="reward-card">
                 <h3>Reward</h3>
-                <p>50 Gold Coins</p>
+                <p>25 Gold Coins</p>
             </div>
 
             <!-- Reward Card for Hard Level -->
             <div class="reward-card">
                 <h3>Reward</h3>
-                <p>200 Gold Coins</p>
+                <p>50 Gold Coins</p>
             </div>
 
             <!-- Reward Card for Medium Level -->

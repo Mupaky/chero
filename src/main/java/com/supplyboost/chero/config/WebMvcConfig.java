@@ -38,6 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                                 "/game/train-stats",
                                 "/game/train",
                                 "/game/underground",
+                                "/game/fight",
                                 "/game/inventory",
                                 "/game/shop",
                                 "/game/shop/buy",

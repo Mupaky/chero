@@ -46,6 +46,9 @@ public class User {
     @Column(nullable = false)
     private boolean isActive;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> notifications = new ArrayList<>();
+
     @Column(nullable = false)
     private LocalDateTime createdOn;
 

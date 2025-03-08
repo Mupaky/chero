@@ -3,6 +3,7 @@ package com.supplyboost.chero.game.character.service;
 import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.game.character.model.ResourceType;
 import com.supplyboost.chero.game.character.repository.CharacterRepository;
+import com.supplyboost.chero.game.character.events.LevelUpEvent;
 import com.supplyboost.chero.game.inventory.model.Inventory;
 import com.supplyboost.chero.game.inventory.service.InventoryService;
 import com.supplyboost.chero.game.item.model.Item;
@@ -14,6 +15,7 @@ import com.supplyboost.chero.user.model.User;
 import com.supplyboost.chero.utils.Generator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,18 +33,25 @@ public class CharacterService {
     private final InventoryService inventoryService;
     private final ItemService itemService;
     private final StatsService statsService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public CharacterService(CharacterRepository characterRepository, InventoryService inventoryService, ItemService itemService, StatsService statsService) {
+    public CharacterService(CharacterRepository characterRepository, InventoryService inventoryService, ItemService itemService, StatsService statsService, ApplicationEventPublisher eventPublisher) {
         this.characterRepository = characterRepository;
         this.inventoryService = inventoryService;
         this.itemService = itemService;
         this.statsService = statsService;
+        this.eventPublisher = eventPublisher;
+    }
+
+    public void save(GameCharacter character) {
+        characterRepository.save(character);
     }
 
     public void addResourceAmount(UUID characterId, ResourceType type, int amount) {
         GameCharacter gameCharacter = getCharacter(characterId);
         gameCharacter.getResources().put(type, gameCharacter.getResources().get(type) + amount);
+
         characterRepository.save(gameCharacter);
     }
 
@@ -87,12 +96,24 @@ public class CharacterService {
     }
 
     public void trainStat(UUID gameCharacterId , UUID id, StatType statType) {
+        GameCharacter gameCharacter = characterRepository.getReferenceById(gameCharacterId);
+
         int price = statsService.getStatPrice(id, statType);
 
         if(spendMoney(gameCharacterId, price)){
             statsService.increaseStat(id, statType, 1);
+
+            if(StatType.ENDURANCE.equals(statType)){
+
+            }
+            switch (statType){
+                case StatType.ENDURANCE ->  gameCharacter.setHealth(gameCharacter.getHealth() + 50);
+                case StatType.INTELLIGENCE -> gameCharacter.setEnergy(gameCharacter.getEnergy() + 1);
+            }
         }
     }
+
+
 
     public boolean spendMoney(UUID characterId, int amount){
         GameCharacter character = characterRepository.getReferenceById(characterId);
@@ -105,6 +126,37 @@ public class CharacterService {
             return true;
         }
         return false;
+    }
+
+    public void addExperience(GameCharacter character, int amount) {
+        character.setExperience(character.getExperience() + amount);
+
+        boolean leveledUp = false;
+        while (character.getExperience() >= character.getExpForNextLevelUp()) {
+            levelUp(character);
+            leveledUp = true;
+        }
+
+        characterRepository.save(character);
+
+        if(leveledUp) {
+            eventPublisher.publishEvent(new LevelUpEvent(this, character));
+        }
+    }
+
+    private void levelUp(GameCharacter character) {
+        character.setExperience(character.getExperience() - character.getExpForNextLevelUp());
+        character.setLevel(character.getLevel() + 1);
+        character.setExpForNextLevelUp((int)(character.getExpForNextLevelUp() * 1.2));
+
+        character.setHealth(character.getHealth() + 100);
+        character.setCurrentHealth(character.getHealth());
+
+        character.getResources().put(ResourceType.GOLD,
+                character.getResources().get(ResourceType.GOLD) + 500 * character.getLevel());
+
+        log.info("Character [%s] leveled up to Level [%d]!"
+                .formatted(character.getNickName(), character.getLevel()));
     }
 
     private Map<ResourceType, Integer> initializeResources() {

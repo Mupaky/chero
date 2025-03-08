@@ -45,6 +45,10 @@ public class UserService implements UserDetailsService {
         this.characterService = characterService;
     }
 
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
 
     public User login(LoginRequest loginRequest){
         Optional<User> optionalUser = userRepository.findByUsername(loginRequest.getUsername());

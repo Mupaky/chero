@@ -28,16 +28,26 @@
                 <h2 th:text="${user.username}">Nickname</h2>
                 <div class="progress-bar">
                     <label>Experience</label>
-                    <progress th:value="${user.gameCharacter.experience}" max="100"></progress>
+                    <progress th:value="${user.gameCharacter.experience}"
+                              th:attr="max=${user.gameCharacter.expForNextLevelUp}">
+                    </progress>
+                    <span th:text="${user.gameCharacter.experience} + '/' + ${user.gameCharacter.expForNextLevelUp}"></span>
                 </div>
                 <div class="progress-bar">
                     <label>Health</label>
-                    <progress th:value="${user.gameCharacter.health}" max="100"></progress>
+                    <progress th:value="${user.gameCharacter.currentHealth}"
+                              th:attr="max=${user.gameCharacter.health}">
+                    </progress>
+                    <span th:text="${user.gameCharacter.currentHealth} + '/' + ${user.gameCharacter.health}"></span>
                 </div>
                 <div class="progress-bar">
                     <label>Energy</label>
-                    <progress th:value="${user.gameCharacter.energy}" max="100"></progress>
+                    <progress th:value="${user.gameCharacter.currentEnergy}"
+                              th:attr="max=${user.gameCharacter.energy}">
+                    </progress>
+                    <span th:text="${user.gameCharacter.currentEnergy} + '/' + ${user.gameCharacter.energy}">0/0</span>
                 </div>
+
                 <p><strong>Level:</strong> <span th:text="${user.gameCharacter.level}">1</span></p>
                 <p><strong>Strength:</strong> <span th:text="${user.gameCharacter.stats.stats.['STRENGTH']}"></span></p>
                 <p><strong>Agility:</strong> <span th:text="${user.gameCharacter.stats.stats.['AGILITY']}"></span></p>
