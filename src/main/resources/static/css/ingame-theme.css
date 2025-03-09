@@ -115,7 +115,6 @@ progress::-webkit-progress-value {
 /* Dashboard Layout */
 .dashboard-container {
     display: flex;
-    min-height: 100vh;
 }
 
 /* Sidebar Menu */

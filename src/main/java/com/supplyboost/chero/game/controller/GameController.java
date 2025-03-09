@@ -2,7 +2,6 @@ package com.supplyboost.chero.game.controller;
 
 
 import com.supplyboost.chero.game.character.events.NotificationService;
-import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.game.character.service.CharacterService;
 import com.supplyboost.chero.game.fight.service.FightService;
 import com.supplyboost.chero.game.item.model.Item;
@@ -19,7 +18,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -88,6 +86,8 @@ public class GameController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("notifications", user.getNotifications());
 
+        log.info("NOTIFICATION " + user.getNotifications().toString());
+
         user.getNotifications().clear();
         userService.save(user);
 
@@ -95,17 +95,13 @@ public class GameController {
     }
 
     @PostMapping("/fight")
-    public ModelAndView fight(@RequestParam String difficulty,
+    public String fight(@RequestParam String difficulty,
                                    @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
         User user = userService.getById(authenticationMetadata.getUserId());
 
         fightService.handleFight(user, difficulty);
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/game/underground");
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("notifications", user.getNotifications());
-
-        return modelAndView;
+        return "redirect:/game/underground";
     }
 
     @GetMapping("/inventory")

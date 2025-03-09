@@ -22,7 +22,7 @@
         <h1>Underground Challenges</h1>
         <p>Select a challenge to face formidable monsters and earn rewards.</p>
 
-        <div th:if="${notifications}">
+        <div th:if="${notifications != null and !notifications.isEmpty()}">
             <div th:each="notification : ${notifications}" class="alert alert-info">
                 <span th:text="${notification}"></span>
             </div>

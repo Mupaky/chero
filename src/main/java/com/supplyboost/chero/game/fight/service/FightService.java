@@ -25,7 +25,7 @@ public class FightService {
         this.notificationService = notificationService;
     }
 
-    public boolean handleFight(User user, String difficulty) {
+    public void handleFight(User user, String difficulty) {
         GameCharacter character = user.getGameCharacter();
         int previousLevel = character.getLevel();
 
@@ -33,12 +33,12 @@ public class FightService {
             character.setCurrentEnergy(character.getCurrentEnergy() - 1);
         }else{
             notificationService.notify(user, "🎉 Out of energy. Please rest!");
-            return false;
+            return;
         }
 
         if(character.getCurrentHealth() <= 0){
             notificationService.notify(user, "🎉 You are hurt and have no health. Please rest!");
-            return false;
+            return;
         }
 
         boolean victory = new Random().nextInt(100) < getWinChance(difficulty);
@@ -57,8 +57,6 @@ public class FightService {
             characterService.save(character);
             notificationService.notify(user, "💥 You lost the fight. Try again!");
         }
-
-        return victory;
     }
 
     private int getWinChance(String difficulty) {
