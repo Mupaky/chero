@@ -49,10 +49,46 @@
                 </div>
 
                 <p><strong>Level:</strong> <span th:text="${user.gameCharacter.level}">1</span></p>
-                <p><strong>Strength:</strong> <span th:text="${user.gameCharacter.stats.stats.['STRENGTH']}"></span></p>
-                <p><strong>Agility:</strong> <span th:text="${user.gameCharacter.stats.stats.['AGILITY']}"></span></p>
-                <p><strong>Intelligence:</strong> <span th:text="${user.gameCharacter.stats.stats.['INTELLIGENCE']}"></span></p>
-                <p><strong>Endurance:</strong> <span th:text="${user.gameCharacter.stats.stats.['ENDURANCE']}"></span></p>
+
+                <div th:if="${enhancedStats != null}">
+                    <p><strong>Strength:</strong>
+                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH]}">0</span>
+                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH)
+          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH)
+          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH]}">
+            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH]}">0</span>)
+        </span>
+                    </p>
+
+                    <p><strong>Agility:</strong>
+                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY]}">0</span>
+                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).AGILITY)
+          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).AGILITY)
+          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY]}">
+            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY]}">0</span>)
+        </span>
+                    </p>
+
+                    <p><strong>Intelligence:</strong>
+                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE]}">0</span>
+                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE)
+          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE)
+          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE]}">
+            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE]}">0</span>)
+        </span>
+                    </p>
+
+                    <p><strong>Endurance:</strong>
+                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE]}">0</span>
+                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE)
+          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE)
+          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE]}">
+            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE]}">0</span>)
+        </span>
+                    </p>
+                </div>
+
+
 
                 <button class="edit-profile-btn">Edit Profile</button>
             </div>

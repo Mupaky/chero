@@ -32,7 +32,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                                 "/",
                                 "/auth/login",
                                 "/auth/register",
-                                "logout"
+                                "logout",
+                                "/error"
                         ).permitAll()
                         .requestMatchers("/game/edit-profile",
                                 "/game/train-stats",

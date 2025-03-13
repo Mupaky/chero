@@ -2,6 +2,7 @@ package com.supplyboost.chero.game.character.service;
 
 import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.game.character.model.ResourceType;
+import com.supplyboost.chero.game.character.model.Wearings;
 import com.supplyboost.chero.game.character.repository.CharacterRepository;
 import com.supplyboost.chero.game.character.events.LevelUpEvent;
 import com.supplyboost.chero.game.inventory.model.Inventory;
@@ -95,13 +96,13 @@ public class CharacterService {
         characterRepository.save(character);
     }
 
-    public void trainStat(UUID gameCharacterId , UUID id, StatType statType) {
+    public void trainStat(UUID gameCharacterId, StatType statType) {
         GameCharacter gameCharacter = characterRepository.getReferenceById(gameCharacterId);
 
-        int price = statsService.getStatPrice(id, statType);
+        int price = statsService.getStatPrice(gameCharacter.getStats().getId(), statType);
 
         if(spendMoney(gameCharacterId, price)){
-            statsService.increaseStat(id, statType, 1);
+            statsService.increaseStat(gameCharacter.getStats().getId(), statType, 1);
 
             if(StatType.ENDURANCE.equals(statType)){
 
@@ -126,6 +127,78 @@ public class CharacterService {
             return true;
         }
         return false;
+    }
+
+    public boolean equipItem(UUID characterId, UUID itemId) {
+        GameCharacter character = getCharacter(characterId);
+        Inventory inventory = character.getInventory();
+
+        Item itemToEquip = inventory.getItems().stream()
+                .filter(item -> item.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Item not found in inventory"));
+
+        if (character.getLevel() < itemToEquip.getLevelNeeded()) {
+            throw new IllegalArgumentException("Character level is too low to equip this item.");
+        }
+
+        Wearings slot = Wearings.valueOf(itemToEquip.getType().name());
+
+        if (character.getWearings().containsKey(slot)) {
+            Item currentItem = character.getWearings().get(slot);
+            currentItem.setEquipped(false);
+            inventory.getItems().add(currentItem);
+        }
+
+        character.getWearings().put(slot, itemToEquip);
+        itemToEquip.setEquipped(true);
+
+        inventory.getItems().remove(itemToEquip);
+
+        save(character);
+        inventoryService.saveInventory(inventory);
+
+        return true;
+    }
+
+    public boolean unEquipItem(UUID characterId, Wearings slot) {
+        GameCharacter character = getCharacter(characterId);
+        Inventory inventory = character.getInventory();
+
+        // 🔴 Check if there is an item equipped in the specified slot
+        if (!character.getWearings().containsKey(slot)) {
+            throw new IllegalArgumentException("No item equipped in the slot: " + slot);
+        }
+
+        Item itemToUnequip = character.getWearings().get(slot);
+        itemToUnequip.setEquipped(false);
+
+        // Move the item back to the inventory
+        inventory.getItems().add(itemToUnequip);
+
+        // Remove the item from the wearings
+        character.getWearings().remove(slot);
+
+        save(character);
+        inventoryService.saveInventory(inventory);
+
+        return true;
+    }
+
+
+    public Map<StatType, Integer> getEnhancedStats(GameCharacter character) {
+        Map<StatType, Integer> enhancedStats = new EnumMap<>(StatType.class);
+
+        character.getStats().getStats().forEach(enhancedStats::put);
+        character.getWearings().values().forEach(item -> {
+            if (item.getStats() != null) {
+                item.getStats().getStats().forEach((statType, value) ->
+                        enhancedStats.merge(statType, value, Integer::sum)
+                );
+            }
+        });
+
+        return enhancedStats;
     }
 
     public void addExperience(GameCharacter character, int amount) {

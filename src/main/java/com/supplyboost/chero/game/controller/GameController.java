@@ -2,6 +2,8 @@ package com.supplyboost.chero.game.controller;
 
 
 import com.supplyboost.chero.game.character.events.NotificationService;
+import com.supplyboost.chero.game.character.model.GameCharacter;
+import com.supplyboost.chero.game.character.model.Wearings;
 import com.supplyboost.chero.game.character.service.CharacterService;
 import com.supplyboost.chero.game.fight.service.FightService;
 import com.supplyboost.chero.game.item.model.Item;
@@ -18,6 +20,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -43,9 +48,15 @@ public class GameController {
     @GetMapping("/dashboard")
     public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
         User user = userService.findByUsername(authenticationMetadata.getUsername());
+        GameCharacter character = user.getGameCharacter();
+
+        Map<StatType, Integer> enhancedStats = characterService.getEnhancedStats(character);
 
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("enhancedStats", enhancedStats);
+
+        log.info("Enhanced Stats: " + enhancedStats);
 
         return modelAndView;
     }
@@ -67,10 +78,7 @@ public class GameController {
 
         StatType statType = StatType.valueOf(stat);
 
-        characterService.trainStat(
-                user.getGameCharacter().getId(),
-                user.getGameCharacter().getStats().getId(),
-                statType);
+        characterService.trainStat(user.getGameCharacter().getId(), statType);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/game/train-stats");
         modelAndView.addObject("user", user);
@@ -114,6 +122,37 @@ public class GameController {
 
         return modelAndView;
     }
+
+    @PostMapping("/items/equip")
+    public ModelAndView equipItem(@RequestParam UUID itemId,
+                            @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+        User user = userService.getById(authenticationMetadata.getUserId());
+        characterService.equipItem(user.getGameCharacter().getId(), itemId);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/game/inventory");
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
+    @PostMapping("/items/unEquipItem")
+    public String unEquipItem(@RequestParam String slot,
+                              @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
+        User user = userService.getById(authenticationMetadata.getUserId());
+        GameCharacter character = user.getGameCharacter();
+
+        Wearings wearingsSlot;
+        try {
+            wearingsSlot = Wearings.valueOf(slot.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid slot specified: " + slot);
+        }
+
+        characterService.unEquipItem(character.getId(), wearingsSlot);
+
+        return "redirect:/game/inventory";
+    }
+
+
 
     @GetMapping("/shop")
     public ModelAndView getShop(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){

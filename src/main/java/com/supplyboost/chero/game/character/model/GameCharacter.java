@@ -58,7 +58,7 @@ public class GameCharacter {
     private Inventory inventory;
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "character_wearings",
             joinColumns = @JoinColumn(name = "character_id"),
