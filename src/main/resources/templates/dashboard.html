@@ -9,12 +9,12 @@
 <body class="underground-theme">
 
 <!-- In-Game Header Fragment -->
-<header th:replace="fragments/ingameheader :: header"></header>
+<header th:replace="~{fragments/ingameheader :: header}"></header>
 
 <main class="dashboard-container">
     <!-- Left Side: In-Game Menu -->
     <aside class="sidebar" id="sidebar">
-        <nav th:replace="fragments/menu :: menu"></nav>
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
     </aside>
 
     <!-- Middle Section: Profile & Gameplay Guide -->
@@ -22,75 +22,57 @@
         <!-- Character Profile Section -->
         <div class="profile-section">
             <div class="character-picture">
-                <img th:src="@{/images/character.png}" alt="Character Avatar">
+                <img th:if="${profile_picture}" th:src="@{${profile_picture}}" alt="Profile Picture">
+                <img id="profilePreview" src="#" alt="Preview" style="display: none;">
             </div>
             <div class="character-info">
-                <h2 th:text="${user.username}">Nickname</h2>
+                <h2 th:text="${gameCharacter.nickName}">Nickname</h2>
                 <div class="progress-bar">
                     <label>Experience</label>
-                    <progress th:value="${user.gameCharacter.experience}"
-                              th:attr="max=${user.gameCharacter.expForNextLevelUp}">
+                    <progress th:value="${gameCharacter.experience}"
+                              th:attr="max=${gameCharacter.expForNextLevelUp}">
                     </progress>
-                    <span th:text="${user.gameCharacter.experience} + '/' + ${user.gameCharacter.expForNextLevelUp}"></span>
+                    <span th:text="${gameCharacter.experience} + '/' + ${gameCharacter.expForNextLevelUp}"></span>
                 </div>
                 <div class="progress-bar">
                     <label>Health</label>
-                    <progress th:value="${user.gameCharacter.currentHealth}"
-                              th:attr="max=${user.gameCharacter.health}">
+                    <progress th:value="${gameCharacter.currentHealth}"
+                              th:attr="max=${gameCharacter.health}">
                     </progress>
-                    <span th:text="${user.gameCharacter.currentHealth} + '/' + ${user.gameCharacter.health}"></span>
+                    <span th:text="${gameCharacter.currentHealth} + '/' + ${gameCharacter.health}"></span>
                 </div>
                 <div class="progress-bar">
                     <label>Energy</label>
-                    <progress th:value="${user.gameCharacter.currentEnergy}"
-                              th:attr="max=${user.gameCharacter.energy}">
+                    <progress th:value="${gameCharacter.currentEnergy}"
+                              th:attr="max=${gameCharacter.energy}">
                     </progress>
-                    <span th:text="${user.gameCharacter.currentEnergy} + '/' + ${user.gameCharacter.energy}">0/0</span>
+                    <span th:text="${gameCharacter.currentEnergy} + '/' + ${gameCharacter.energy}">0/0</span>
                 </div>
 
-                <p><strong>Level:</strong> <span th:text="${user.gameCharacter.level}">1</span></p>
+                <p><strong>Level:</strong> <span th:text="${gameCharacter.level}">1</span></p>
 
                 <div th:if="${enhancedStats != null}">
                     <p><strong>Strength:</strong>
-                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH]}">0</span>
-                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH)
-          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH)
-          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH]}">
-            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH]}">0</span>)
-        </span>
+                        <span th:text="${stats.strength}">0</span>
+                        (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).STRENGTH] - stats.strength}">0</span>)</span>
                     </p>
-
                     <p><strong>Agility:</strong>
-                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY]}">0</span>
-                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).AGILITY)
-          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).AGILITY)
-          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY]}">
-            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY]}">0</span>)
-        </span>
+                        <span th:text="${stats.agility}">0</span>
+                        (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).AGILITY] - stats.agility}">0</span>)</span>
                     </p>
-
                     <p><strong>Intelligence:</strong>
-                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE]}">0</span>
-                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE)
-          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE)
-          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE]}">
-            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE]}">0</span>)
-        </span>
+                        <span th:text="${stats.intelligence}">0</span>
+            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).INTELLIGENCE] - stats.intelligence}">0</span>)</span>
                     </p>
-
                     <p><strong>Endurance:</strong>
-                        <span th:text="${user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE]}">0</span>
-                        <span th:if="${enhancedStats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE)
-          and user.gameCharacter.stats.stats.containsKey(T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE)
-          and enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE] > user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE]}">
-            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE] - user.gameCharacter.stats.stats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE]}">0</span>)
-        </span>
+                        <span th:text="${stats.endurance}">0</span>
+            (+<span th:text="${enhancedStats[T(com.supplyboost.chero.game.stats.model.StatType).ENDURANCE] - stats.endurance}">0</span>)</span>
                     </p>
                 </div>
 
-
-
-                <button class="edit-profile-btn">Edit Profile</button>
+                <form th:action="@{/users/profile/edit}" method="get">
+                    <button type="submit" class="edit-profile-btn">Edit Profile</button>
+                </form>
             </div>
         </div>
 
@@ -98,24 +80,23 @@
         <div class="game-intro">
             <h2>Welcome to the Underground</h2>
             <p>
-                Beneath the streets of the city lies a dark, unknown world—**the Underground**.
+                Beneath the streets of the city lies a dark, unknown world—the Underground.
                 A place where monstrous creatures are born from the shadows, seeking their chance to rise into the real world.
-                **You are the last line of defense!** As a Guardian of the Underground, your mission is simple:
+                You are the last line of defense! As a Guardian of the Underground, your mission is simple:
             </p>
             <ul>
                 <li>Venture deep into the underground tunnels.</li>
                 <li>Hunt and eliminate creatures before they escape.</li>
-                <li>Gain **Experience**, **Gold**, and **Artifacts** to grow stronger.</li>
-                <li>Manage your **Energy** carefully—running out leaves you vulnerable.</li>
-                <li>Use strategy to level up your **Strength, Agility, Intelligence, and Endurance**.</li>
+                <li>Gain Experience, Gold, and Artifacts to grow stronger.</li>
+                <li>Manage your Energy carefully—running out leaves you vulnerable.</li>
+                <li>Use strategy to level up your Strength, Agility, Intelligence, and Endurance.</li>
             </ul>
-            <p>Do you have what it takes to keep the creatures from reaching the surface? **Enter the Underground now!**</p>
+            <p>Do you have what it takes to keep the creatures from reaching the surface? Enter the Underground now!</p>
         </div>
     </section>
 </main>
 
-<!-- Footer Fragment -->
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

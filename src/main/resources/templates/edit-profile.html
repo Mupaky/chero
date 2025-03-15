@@ -1,14 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Profile - Underground Guardian</title>
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+    <link rel="stylesheet" th:href="@{/css/edit-profile.css}" />
 </head>
-<body>
+<body class="underground-theme">
 
+<header th:replace="~{fragments/ingameheader :: header}"></header>
 
+<main class="edit-profile-container">
+    <aside class="sidebar" id="sidebar">
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
+    </aside>
 
+    <section class="profile-edit-content">
+        <h2 class="section-title">Edit Profile</h2>
 
+        <!-- Success and Error Messages -->
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-image">
+                <img th:if="${userProfilePicture}" th:src="@{${userProfilePicture}}" alt="Profile Picture">
+                <img id="profilePreview" src="#" alt="Preview" style="display: none;">
+            </div>
+
+            <form th:action="@{/users/profile/update}" method="post" enctype="multipart/form-data" class="edit-form">
+                <label>Email:</label>
+                <input type="email" name="email" th:value="${userEditRequest.email}" />
+
+                <label>Character Name:</label>
+                <input type="text" name="characterName" th:value="${userEditRequest.characterName}" />
+
+                <label>Profile Picture:</label>
+                <input type="file" id="profilePictureFile" name="profilePictureFile" accept="image/png, image/jpeg, image/webp" onchange="previewImage(event)"/>
+
+                <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('profilePreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 
 </body>
 </html>

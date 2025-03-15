@@ -1,9 +1,8 @@
 package com.supplyboost.chero.game.fight.service;
 
-import com.supplyboost.chero.game.character.events.NotificationService;
+import com.supplyboost.chero.game.character.events.NotificationEventService;
 import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.game.character.model.ResourceType;
-import com.supplyboost.chero.game.character.repository.CharacterRepository;
 import com.supplyboost.chero.game.character.service.CharacterService;
 import com.supplyboost.chero.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,12 @@ import java.util.Random;
 public class FightService {
 
     private final CharacterService characterService;
-    private final NotificationService notificationService;
+    private final NotificationEventService notificationEventService;
 
     @Autowired
-    public FightService(CharacterService characterService, NotificationService notificationService) {
+    public FightService(CharacterService characterService, NotificationEventService notificationEventService) {
         this.characterService = characterService;
-        this.notificationService = notificationService;
+        this.notificationEventService = notificationEventService;
     }
 
     public void handleFight(User user, String difficulty) {
@@ -32,12 +31,12 @@ public class FightService {
         if(character.getCurrentEnergy() > 0){
             character.setCurrentEnergy(character.getCurrentEnergy() - 1);
         }else{
-            notificationService.notify(user, "🎉 Out of energy. Please rest!");
+            notificationEventService.notify(user, "🎉 Out of energy. Please rest!");
             return;
         }
 
         if(character.getCurrentHealth() <= 0){
-            notificationService.notify(user, "🎉 You are hurt and have no health. Please rest!");
+            notificationEventService.notify(user, "🎉 You are hurt and have no health. Please rest!");
             return;
         }
 
@@ -47,15 +46,15 @@ public class FightService {
             Map<String, Integer> rewards = applyVictoryRewards(difficulty);
             characterService.addExperience(character, rewards.get("Experience"));
             characterService.addResourceAmount(character.getId(), ResourceType.GOLD, rewards.get("Gold"));
-            notificationService.notify(user, "🎉 You won the fight against " + difficulty + " monster!");
+            notificationEventService.notify(user, "🎉 You won the fight against " + difficulty + " monster!");
 
             if (character.getLevel() > previousLevel) {
-                notificationService.notify(user, "✨ Congratulations! You reached level " + character.getLevel() + "!");
+                notificationEventService.notify(user, "✨ Congratulations! You reached level " + character.getLevel() + "!");
             }
         } else {
             applyDefeatPenalties(character, difficulty);
             characterService.save(character);
-            notificationService.notify(user, "💥 You lost the fight. Try again!");
+            notificationEventService.notify(user, "💥 You lost the fight. Try again!");
         }
     }
 

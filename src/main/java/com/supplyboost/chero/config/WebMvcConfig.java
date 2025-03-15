@@ -29,6 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
                                 "/about",
+                                "/contact",
                                 "/",
                                 "/auth/login",
                                 "/auth/register",
@@ -36,14 +37,23 @@ public class WebMvcConfig implements WebMvcConfigurer {
                                 "/error"
                         ).permitAll()
                         .requestMatchers("/game/edit-profile",
-                                "/game/train-stats",
+
                                 "/game/train",
+                                "/game/train-stats",
+
                                 "/game/underground",
+
                                 "/game/fight",
+
                                 "/game/inventory",
+
                                 "/game/shop",
                                 "/game/shop/buy",
-                                "/game/subscription"
+
+                                "notifications",
+                                "notifications/preferences/toggle",
+
+                                "users/profile/edit"
                         ).permitAll()
                         .requestMatchers("/css/**",
                                 "/js/**",

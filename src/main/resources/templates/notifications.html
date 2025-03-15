@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification Preferences</title>
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+    <link rel="stylesheet" th:href="@{/css/notifications.css}" />
+</head>
+<body class="underground-theme">
+
+<!-- In-Game Header -->
+<header th:replace="~{fragments/ingameheader :: header}"></header>
+
+<main>
+    <aside class="sidebar">
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
+    </aside>
+
+    <section class="notification-container">
+        <h2>Email Notification Preferences</h2>
+
+        <div class="notification-option">
+            <input type="checkbox" id="enabled" name="enabled" th:checked="${notificationPreference.enabled}"
+                   th:onclick="|location.href='@{/notifications/preferences/toggle(enabled=${!notificationPreference.enabled})}'|">
+            <label for="enabled">Enable Notifications</label>
+        </div>
+
+        <div class="notification-option">
+            <label>Contact Information: <span th:text="${notificationPreference.contactInfo}"></span></label>
+        </div>
+
+        <div th:if="${successMessage}" class="alert-success">
+            <span th:text="${successMessage}"></span>
+        </div>
+
+        <div th:if="${errorMessage != null}" class="alert-error">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+</main>
+
+<!-- Footer Fragment -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

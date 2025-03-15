@@ -11,12 +11,12 @@
 <body class="underground-theme">
 
 <!-- In-Game Header -->
-<header th:replace="fragments/ingameheader :: header"></header>
+<header th:replace="~{fragments/ingameheader :: header}"></header>
 
 <main class="shop-container">
     <!-- Left Side Menu -->
     <aside class="sidebar">
-        <nav th:replace="fragments/menu :: menu"></nav>
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
     </aside>
 
     <!-- Shop Items Section -->
@@ -49,9 +49,8 @@
 </main>
 
 <!-- Footer -->
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
-<script th:src="@{js/toggleMenu.js}"></script>
 
 </body>
 </html>

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LevelUpNotificationManager {
-    private final NotificationService notificationService;
+    private final NotificationEventService notificationEventService;
 
     @Autowired
-    public LevelUpNotificationManager(NotificationService notificationService) {
-        this.notificationService = notificationService;
+    public LevelUpNotificationManager(NotificationEventService notificationEventService) {
+        this.notificationEventService = notificationEventService;
     }
 
     @EventListener
@@ -20,6 +20,6 @@ public class LevelUpNotificationManager {
         String message = "Congratulations " + character.getNickName() +
                 "! You've reached level " + character.getLevel() + "!";
 
-        notificationService.notify(character.getOwner(), message);
+        notificationEventService.notify(character.getOwner(), message);
     }
 }

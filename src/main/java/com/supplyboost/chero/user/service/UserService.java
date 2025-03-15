@@ -1,12 +1,12 @@
 package com.supplyboost.chero.user.service;
 
 
-import com.supplyboost.chero.dto.LoginRequest;
-import com.supplyboost.chero.dto.RegisterRequest;
-import com.supplyboost.chero.dto.UserEditRequest;
+import com.supplyboost.chero.notification.service.NotificationService;
+import com.supplyboost.chero.web.dto.LoginRequest;
+import com.supplyboost.chero.web.dto.RegisterRequest;
+import com.supplyboost.chero.web.dto.UserEditRequest;
 import com.supplyboost.chero.exception.DomainException;
 import com.supplyboost.chero.game.character.model.GameCharacter;
-import com.supplyboost.chero.game.character.model.ResourceType;
 import com.supplyboost.chero.game.character.service.CharacterService;
 import com.supplyboost.chero.security.AuthenticationMetadata;
 import com.supplyboost.chero.subscription.service.SubscriptionService;
@@ -22,7 +22,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,13 +42,15 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final SubscriptionService subscriptionService;
     private final CharacterService characterService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SubscriptionService subscriptionService, CharacterService characterService){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SubscriptionService subscriptionService, CharacterService characterService, NotificationService notificationService){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.subscriptionService = subscriptionService;
         this.characterService = characterService;
+        this.notificationService = notificationService;
     }
 
     public void save(User user) {
@@ -80,6 +88,9 @@ public class UserService implements UserDetailsService {
         subscriptionService.createDefaultSubscription(user);
         GameCharacter gameCharacter = characterService.createGameCharacter(user);
 
+        notificationService.saveNotificationPreference(user.getId(), true, user.getEmail());
+        notificationService.sendGreetings(user.getId(), user.getUsername());
+
         log.info("Successfully create new user account [%s] and id [%s]".formatted(user.getUsername(), user.getId()));
 
         user.setGameCharacter(gameCharacter);
@@ -108,15 +119,39 @@ public class UserService implements UserDetailsService {
         return userOptional.get();
     }
 
-    public void editUserDetails(UUID userId, UserEditRequest userEditRequest){
-
+    public void editUserDetails(UUID userId, UserEditRequest userEditRequest, MultipartFile profilePictureFile){
         User user = getById(userId);
 
-        user.setEmail(userEditRequest.getEmail());
-        user.setCountry(userEditRequest.getCountry());
-        user.setProfile_picture(userEditRequest.getProfilePicture());
+        if (profilePictureFile != null && !profilePictureFile.isEmpty()) {
+            try {
+                File uploadDir = new File("src/main/resources/static/uploads/");
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
 
-        userRepository.save(user);
+                String contentType = profilePictureFile.getContentType();
+                assert contentType != null;
+                if (!(contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/webp"))) {
+                    return;
+                }
+
+                String fileName = UUID.randomUUID() + "." + contentType.split("/")[1];
+                Path filePath = Paths.get(uploadDir + "/" + fileName);
+                Files.write(filePath, profilePictureFile.getBytes());
+
+                user.setProfile_picture("/uploads/" + fileName);
+            } catch (IOException e) {
+                return;
+            }
+        }
+
+        user.setEmail(userEditRequest.getEmail());
+        user.getGameCharacter().setNickName(userEditRequest.getCharacterName());
+
+
+        characterService.editCharacterName(user.getGameCharacter().getId(), userEditRequest.getCharacterName());
+        save(user);
+        characterService.save(user.getGameCharacter());
     }
 
     @Override

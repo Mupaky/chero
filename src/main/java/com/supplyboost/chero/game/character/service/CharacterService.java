@@ -70,6 +70,12 @@ public class CharacterService {
         return gameCharacter.getResources().get(type);
     }
 
+    public void editCharacterName(UUID id, String characterName){
+        GameCharacter gameCharacter = characterRepository.getReferenceById(id);
+        gameCharacter.setNickName(characterName);
+        save(gameCharacter);
+    }
+
     public GameCharacter createGameCharacter(User user){
         GameCharacter gameCharacter = characterRepository.save(initializeCharacter(user));
         Inventory inventory = inventoryService.createInventory(gameCharacter);
@@ -161,23 +167,26 @@ public class CharacterService {
         return true;
     }
 
-    public boolean unEquipItem(UUID characterId, Wearings slot) {
+    public boolean unEquipItem(UUID characterId, String slot) {
+        Wearings wearingsSlot;
+        try {
+            wearingsSlot = Wearings.valueOf(slot.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid slot specified [%s]" .formatted(slot));
+        }
+
         GameCharacter character = getCharacter(characterId);
         Inventory inventory = character.getInventory();
 
-        // 🔴 Check if there is an item equipped in the specified slot
-        if (!character.getWearings().containsKey(slot)) {
-            throw new IllegalArgumentException("No item equipped in the slot: " + slot);
+        if (!character.getWearings().containsKey(wearingsSlot)) {
+            throw new IllegalArgumentException("No item equipped in the slot: %s ".formatted(wearingsSlot));
         }
 
-        Item itemToUnequip = character.getWearings().get(slot);
+        Item itemToUnequip = character.getWearings().get(wearingsSlot);
         itemToUnequip.setEquipped(false);
 
-        // Move the item back to the inventory
         inventory.getItems().add(itemToUnequip);
-
-        // Remove the item from the wearings
-        character.getWearings().remove(slot);
+        character.getWearings().remove(wearingsSlot);
 
         save(character);
         inventoryService.saveInventory(inventory);

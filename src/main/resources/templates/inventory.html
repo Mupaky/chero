@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Inventory</title>
-    <!-- Main theme styles -->
     <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
-    <!-- Inventory-specific styles -->
     <link rel="stylesheet" th:href="@{/css/inventory.css}" />
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="underground-theme">
 
 <!-- In-Game Header -->
-<header th:replace="fragments/ingameheader :: header"></header>
+<header th:replace="~{fragments/ingameheader :: header}"></header>
 
 <main class="inventory-container">
     <!-- Left Side Menu -->
     <aside class="sidebar">
-        <nav th:replace="fragments/menu :: menu"></nav>
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
     </aside>
 
     <!-- Main Content Area -->
@@ -29,11 +26,11 @@
             <h2>Equipped Items</h2>
             <div class="worn-grid">
                 <!-- Dynamic Equipped Items -->
-                <div th:each="entry : ${user.gameCharacter.wearings.entrySet()}" class="worn-item" th:data-item-id="${entry.value.id}">
+                <div th:each="entry : ${wearings.entrySet()}" class="worn-item" th:data-item-id="${entry.value.id}">
                     <img th:src="@{'/images/items/' + ${entry.value.image}}" th:alt="${entry.value.name}">
                     <p th:text="${entry.key}">Item Slot</p>
                     <form th:action="@{/game/items/unequip}" method="post">
-                        <input type="hidden" name="itemId" th:value="${entry.value.id}">
+                        <input type="hidden" name="slot" th:value="${entry.value.type}">
                         <button class="unequip-btn" type="submit">
                             <i class="fa fa-minus"></i>
                         </button>
@@ -47,7 +44,7 @@
             <h2>Your Items</h2>
             <div class="inventory-grid">
                 <!-- Inventory Item Card Example -->
-                <div th:each="item : ${user.gameCharacter.inventory.items}" class="inventory-card" th:data-item-id="${item.id}">
+                <div th:each="item : ${inventory.items}" class="inventory-card" th:data-item-id="${item.id}">
                     <img th:src="@{'/images/items/' + ${item.image}}" th:alt="${item.name}">
                     <h3 th:text="${item.name}">Item Name</h3>
                     <p class="description" th:text="${item.description}">Item Description</p>
@@ -80,7 +77,7 @@
 </main>
 
 <!-- Footer -->
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 
 </body>

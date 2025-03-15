@@ -1,0 +1,43 @@
+<!-- templates/contact.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Underground Guardian | Contact Us</title>
+    <link rel="stylesheet" th:href="@{/css/theme.css}" />
+    <link rel="stylesheet" th:href="@{/css/contact.css}" />
+</head>
+<body class="contact-theme">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="contact-container">
+    <section class="contact-intro">
+        <h1>Contact <span class="game-title">Underground Guardian</span></h1>
+        <p>
+            Do you have questions about the game? Need assistance? Or just want to learn more?
+            Find all the information you need below to stay connected with the world of Underground Guardian.
+        </p>
+    </section>
+
+    <section class="contact-info">
+        <h2>Ways to Reach Us</h2>
+        <p><strong>Email:</strong> <a href="mailto:support@undergroundguardian.com">support@undergroundguardian.com</a></p>
+        <p><strong>Community Discord:</strong> <a href="https://discord.gg/undergroundguardian">Join Our Community</a></p>
+        <p><strong>Follow Us on Twitter:</strong> <a href="https://twitter.com/UndergroundGuard">@UndergroundGuard</a></p>
+        <p><strong>Official Forums:</strong> <a href="https://forums.undergroundguardian.com">Visit Our Forums</a></p>
+    </section>
+
+    <section class="contact-map">
+        <h2>Our Headquarters</h2>
+        <p>We are located deep within the Underground, ensuring the world remains safe from the lurking shadows.</p>
+        <div class="contact-image">
+            <img src="/images/underground-headquarters.webp" alt="Underground Guardian Headquarters Map" />
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

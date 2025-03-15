@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NotificationService {
+public class NotificationEventService {
 
     private final UserService userService;
 
     @Autowired
-    public NotificationService(UserService userService) {
+    public NotificationEventService(UserService userService) {
         this.userService = userService;
     }
 

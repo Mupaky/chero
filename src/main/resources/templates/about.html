@@ -3,20 +3,59 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MyWebGame | About</title>
-    <link rel="stylesheet" th:href=@{/css/theme.css} />
+    <title>Underground Guardian | About</title>
+    <link rel="stylesheet" th:href="@{/css/theme.css}" />
+    <link rel="stylesheet" th:href="@{/css/about.css}" />
 </head>
-<body>
-<header th:replace="fragments/header :: header"></header>
+<body class="about-theme">
 
-<main>
-    <h1>About MyWebGame</h1>
-    <p>
-        MyWebGame is a turn-based strategy game set in a medieval fantasy world.
-        Engage with players across the globe, form alliances, and conquer your foes.
-    </p>
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="about-container">
+    <section class="about-intro">
+        <h1>Welcome to <span class="game-title">Underground Guardian</span></h1>
+        <p>
+            Beneath the city, darkness stirs. The Underground is a realm of forgotten horrors,
+            where monstrous creatures wait for their chance to rise. The fate of humanity hangs in the balance—
+            and only those brave enough to enter the abyss can stop them.
+        </p>
+    </section>
+
+    <section class="about-story">
+        <h2>The Legend of the Underground</h2>
+        <p>
+            For centuries, the Guardians have stood as the last line of defense against the creatures
+            lurking in the shadows. Once a mighty order, their numbers have dwindled, and now, the burden
+            falls on a new generation of warriors. You.
+        </p>
+        <p>
+            Will you train, fight, and rise to become the Champion of the Underground?
+            Or will you be consumed by the darkness, another forgotten soul lost to the abyss?
+        </p>
+    </section>
+
+    <section class="about-features">
+        <h2>Game Features</h2>
+        <ul>
+            <li>🗡️ Turn-Based Combat – Face monstrous creatures in strategic battles.</li>
+            <li>⚔️ Train & Level Up – Enhance your Strength, Agility, Intelligence, and Endurance.</li>
+            <li>🛒 Gear Up for Battle – Buy weapons, armor, and rare artifacts.</li>
+            <li>🏆 Climb the Ranks – Prove yourself and become the ultimate Guardian.</li>
+            <li>🌍 Immersive World – Uncover the secrets hidden deep within the Underground.</li>
+        </ul>
+    </section>
+
+    <section class="about-join">
+        <h2>Join the Guardians</h2>
+        <p>
+            The Underground needs heroes. Sign up today, forge your legend,
+            and become a Guardian of the darkness. Will you accept the challenge?
+        </p>
+        <a href="/auth/register" class="cta-button">Join Now</a>
+    </section>
 </main>
 
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
 </body>
 </html>

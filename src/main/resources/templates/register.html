@@ -6,8 +6,8 @@
     <title>MyWebGame | Register</title>
     <link rel="stylesheet" th:href="@{/css/theme.css}">
 </head>
-<body>
-<header th:replace="fragments/header :: header"></header>
+<body class="register-theme">
+<header th:replace="~{fragments/header :: header}"></header>
 
 <main>
     <h2>Register</h2>
@@ -25,6 +25,6 @@
     </form>
 </main>
 
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

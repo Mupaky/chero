@@ -1,4 +1,4 @@
-package com.supplyboost.chero.dto;
+package com.supplyboost.chero.web.dto;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;

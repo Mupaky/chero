@@ -6,8 +6,8 @@
     <title>MyWebGame | Login</title>
     <link rel="stylesheet" th:href=@{/css/theme.css} />
 </head>
-<body>
-<header th:replace="fragments/header :: header"></header>
+<body class="login-theme">
+<header th:replace="~{fragments/header :: header}"></header>
 
 <main>
     <h2>Login</h2>
@@ -22,6 +22,6 @@
     </form>
 </main>
 
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

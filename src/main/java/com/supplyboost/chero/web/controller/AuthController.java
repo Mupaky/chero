@@ -1,7 +1,7 @@
-package com.supplyboost.chero.user.controller;
+package com.supplyboost.chero.web.controller;
 
-import com.supplyboost.chero.dto.LoginRequest;
-import com.supplyboost.chero.dto.RegisterRequest;
+import com.supplyboost.chero.web.dto.LoginRequest;
+import com.supplyboost.chero.web.dto.RegisterRequest;
 import com.supplyboost.chero.user.model.User;
 import com.supplyboost.chero.user.service.UserService;
 import jakarta.servlet.http.HttpSession;

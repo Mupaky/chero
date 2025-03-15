@@ -3,33 +3,33 @@
         <h1>Underground Guardian</h1>
     </div>
     <div class="player-stats">
-        <span class="nickname" th:text="${user.gameCharacter.nickName}"></span>
+        <span class="nickname" th:text="${gameCharacter.nickName}"></span>
         <div class="stat-container">
             <label>EXP</label>
             <progress
                     class="exp-bar"
-                    th:value="${user.gameCharacter.experience}"
-                    th:attr="max=${user.gameCharacter.expForNextLevelUp}">
+                    th:value="${gameCharacter.experience}"
+                    th:attr="max=${gameCharacter.expForNextLevelUp}">
             </progress>
         </div>
         <div class="stat-container">
             <label>HP</label>
             <progress
                     class="health-bar"
-                    th:value="${user.gameCharacter.currentHealth}"
-                    th:attr="max=${user.gameCharacter.health}">
+                    th:value="${gameCharacter.currentHealth}"
+                    th:attr="max=${gameCharacter.health}">
             </progress>
         </div>
         <div class="stat-container">
             <label>Energy</label>
             <progress
                     class="energy-bar"
-                    th:value="${user.gameCharacter.currentEnergy}"
-                    th:attr="max=${user.gameCharacter.energy}">
+                    th:value="${gameCharacter.currentEnergy}"
+                    th:attr="max=${gameCharacter.energy}">
             </progress>
         </div>
-        <span class="level">Level: <span th:text="${user.gameCharacter.level}">0</span></span>
-        <p>Gold: <span th:text="${user.gameCharacter.resources.get(T(com.supplyboost.chero.game.character.model.ResourceType).GOLD)}"></span></p>
+        <span class="level">Level: <span th:text="${gameCharacter.level}">0</span></span>
+        <p>Gold: <span th:text="${gameCharacter.gold}"></span></p>
     </div>
     <nav>
         <ul>

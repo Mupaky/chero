@@ -1,0 +1,78 @@
+main {
+            display: flex;
+            gap: 20px;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #333;
+            padding: 20px;
+        }
+
+        .notification-container {
+            flex: 1;
+            background-color: #444;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(255,165,0,0.3);
+            border: 2px solid #f39c12;
+            max-width: none;
+        }
+
+        .notification-container h2 {
+            color: #f39c12;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .notification-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .notification-option input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f39c12;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+            background-color: #333;
+            position: relative;
+        }
+
+        .notification-option input[type="checkbox"]:checked::before {
+            content: '✔';
+            position: absolute;
+            color: #f39c12;
+            font-size: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .notification-option label {
+            color: #d1d1d1;
+            cursor: pointer;
+        }
+
+        .alert-success {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .alert-error {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }

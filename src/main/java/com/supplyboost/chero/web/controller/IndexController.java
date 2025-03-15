@@ -1,4 +1,4 @@
-package com.supplyboost.chero.controller;
+package com.supplyboost.chero.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,5 +15,9 @@ public class IndexController {
     @GetMapping("about")
     public String getAboutPage(){
         return "about";
+    }
+    @GetMapping("contact")
+    public String getContactPage(){
+        return "contact";
     }
 }

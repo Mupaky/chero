@@ -11,12 +11,12 @@
 <body class="underground-theme">
 
 <!-- In-Game Header -->
-<header th:replace="fragments/ingameheader :: header"></header>
+<header th:replace="~{fragments/ingameheader :: header}"></header>
 
 <main class="training-container">
     <!-- Left Side Menu -->
     <aside class="sidebar">
-        <nav th:replace="fragments/menu :: menu"></nav>
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
     </aside>
 
     <!-- Main Content Area -->
@@ -26,19 +26,48 @@
             <p>Use your gold to train and increase your stats.</p>
 
             <div class="stat-training">
-                <div class="stat-block" th:each="stat : ${T(com.supplyboost.chero.game.stats.model.StatType).values()}">
-
-                    <span th:text="${stat.name()}">Stat Name</span>
-
-                    <span th:text="${user.gameCharacter.stats.stats[stat.name()]} ?: 0">0</span>
-
+                <div class="stat-block">
+                    <span>Strength</span>
+                    <span th:text="${stats.strength}">0</span>
                     <form th:action="@{/game/train}" method="post">
-                        <input type="hidden" name="stat" th:value="${stat.name()}"/>
+                        <input type="hidden" name="stat" value="STRENGTH"/>
                         <button class="train-btn" type="submit">
                             <i class="fa fa-plus"></i>
                         </button>
                     </form>
+                </div>
 
+                <div class="stat-block">
+                    <span>Agility</span>
+                    <span th:text="${stats.agility}">0</span>
+                    <form th:action="@{/game/train}" method="post">
+                        <input type="hidden" name="stat" value="AGILITY"/>
+                        <button class="train-btn" type="submit">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="stat-block">
+                    <span>Intelligence</span>
+                    <span th:text="${stats.intelligence}">0</span>
+                    <form th:action="@{/game/train}" method="post">
+                        <input type="hidden" name="stat" value="INTELLIGENCE"/>
+                        <button class="train-btn" type="submit">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="stat-block">
+                    <span>Endurance</span>
+                    <span th:text="${stats.endurance}">0</span>
+                    <form th:action="@{/game/train}" method="post">
+                        <input type="hidden" name="stat" value="ENDURANCE"/>
+                        <button class="train-btn" type="submit">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -49,27 +78,27 @@
             <h2>The Path to Becoming a Champion</h2>
             <p>
                 Deep beneath the surface, where the last flickers of light surrender to the abyss, a war is brewing.
-                The **Underground** is no longer just a prison for forgotten creatures—it is their battleground.
+                The Underground is no longer just a prison for forgotten creatures—it is their battleground.
                 Beasts of the shadows grow stronger, feeding off the fear of the weak.
             </p>
 
             <p>
-                A warrior who dares to **face the darkness unprepared** is nothing but a fool marching toward death.
-                To **survive**, to **conquer**, to **become a legend**—you must forge your body and mind into an unbreakable weapon.
+                A warrior who dares to face the darkness unprepared is nothing but a fool marching toward death.
+                To survive, to conquer, to become a legend—you must forge your body and mind into an unbreakable weapon.
             </p>
 
             <h3>Why Must You Train?</h3>
             <ul>
-                <li>**Strength** grants you the power to crush your enemies.</li>
-                <li>**Agility** ensures you are faster than the monsters lurking in the dark.</li>
-                <li>**Intelligence** allows you to outsmart the creatures of the abyss.</li>
-                <li>**Endurance** keeps you standing when all others have fallen.</li>
+                <li>Strength grants you the power to crush your enemies.</li>
+                <li>Agility ensures you are faster than the monsters lurking in the dark.</li>
+                <li>Intelligence allows you to outsmart the creatures of the abyss.</li>
+                <li>Endurance keeps you standing when all others have fallen.</li>
             </ul>
 
             <p>
                 The whispers of fallen warriors echo through the halls, warning of those who dared to enter the Underground without training.
                 Their names are forgotten, their stories erased from history.
-                But **you still have a choice**—train, grow, and rise as the **Champion of the Underground**.
+                But you still have a choice—train, grow, and rise as the Champion of the Underground.
             </p>
 
             <p><strong>Will you be the next legend... or just another lost soul in the dark?</strong></p>
@@ -78,7 +107,7 @@
 </main>
 
 <!-- Footer -->
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

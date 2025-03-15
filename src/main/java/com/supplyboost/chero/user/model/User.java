@@ -4,6 +4,7 @@ import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.subscription.model.Subscription;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class User {
     @Column(nullable = false)
     private boolean isActive;
 
+    @Builder.Default
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> notifications = new ArrayList<>();
 

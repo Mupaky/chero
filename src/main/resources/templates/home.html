@@ -1,25 +1,99 @@
-<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MyWebGame | Home</title>
-    <link rel="stylesheet" th:href=@{/css/theme.css} />
+    <title>Underground Guardian | Begin Your Journey</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" th:href="@{/css/theme.css}" />
 </head>
-<body>
-<!-- Include header component -->
-<!-- e.g., Thymeleaf: th:replace="fragments/header :: header" -->
-<!-- or server-side include / your chosen method -->
+<body class="underground-theme">
 
-<header th:replace="fragments/header :: header"></header>
+<!-- Include Header Fragment -->
+<header th:replace="~{fragments/header :: header}"></header>
 
-<main>
-    <h1>Welcome to MyWebGame</h1>
-    <p>Explore the world, fight monsters, and become the ultimate champion!</p>
-    <!-- Possibly more content -->
+<main class="homepage-container">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1>Welcome to <span class="game-title">Underground Guardian</span></h1>
+        <p class="intro-text">
+            Beneath the city streets lies The Underground, a place of darkness, danger, and legend.
+            Monsters lurk in the shadows, plotting their rise into the real world.
+            Will you answer the call and become the last line of defense?
+        </p>
+        <a href="/auth/register" class="cta-button">Join Now</a>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section">
+        <h2>The Legend of the Underground</h2>
+        <p>
+            For centuries, The Underground has remained a secret beneath the city, a place where creatures of shadow
+            grow stronger, feeding on the fear of the weak. It was once believed that no one could stop them—until now.
+        </p>
+        <p>
+            The Guardians, a legendary force of warriors, stood as the last shield between humanity and darkness.
+            But their numbers have dwindled, and now, the burden falls on you.
+        </p>
+        <p>
+            Train. Fight. Survive. Or be forgotten in the abyss.
+        </p>
+        <a href="/auth/register" class="story-cta">Begin Your Legend</a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>What Awaits You in the Underground?</h2>
+        <div class="features-grid">
+            <div class="feature-box">
+                <img src="/images/feature-training.webp" alt="Training Hall">
+                <h3>Train & Grow Stronger</h3>
+                <p>Level up your Strength, Agility, Intelligence, and Endurance.</p>
+            </div>
+            <div class="feature-box">
+                <img src="/images/feature-battle.webp" alt="Underground Battles">
+                <h3>Battle Fierce Creatures</h3>
+                <p>Face terrifying monsters and prove yourself in combat.</p>
+            </div>
+            <div class="feature-box">
+                <img src="/images/feature-shop.webp" alt="Shop">
+                <h3>Gear Up for War</h3>
+                <p>Buy weapons, armor, and rare artifacts to enhance your abilities.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenge Section -->
+    <section class="challenges-section">
+        <h2>Face the Darkness & Earn Rewards</h2>
+        <p>Choose your level of danger and claim your rewards!</p>
+        <div class="challenges-grid">
+            <div class="challenge-card">
+                <h3>Easy Challenge</h3>
+                <p>A timid creature lurks, waiting for a challenger.</p>
+            </div>
+            <div class="challenge-card">
+                <h3>Medium Challenge</h3>
+                <p>A cunning adversary tests the bravery of warriors.</p>
+            </div>
+            <div class="challenge-card">
+                <h3>Hard Challenge</h3>
+                <p>An ancient beast awakens, challenging only the strongest.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Are You Ready to Face the Darkness?</h2>
+        <p>Sign up today and begin your journey as the Guardian of the Underground!</p>
+        <a href="/register" class="cta-button">Sign Up Now</a>
+    </section>
+
 </main>
 
-<!-- Include footer component -->
-<footer th:replace="fragments/footer :: footer"></footer>
+<!-- Include Footer Fragment -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
 </body>
 </html>

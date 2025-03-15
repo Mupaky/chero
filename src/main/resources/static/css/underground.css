@@ -20,7 +20,7 @@
 }
 
 /* Challenge Card Styling */
-.challenge-card, .reward-card {
+.challenge-card{
     background-color: #333;
     padding: 20px;
     border-radius: 10px;
@@ -29,6 +29,14 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.reward-card{
+    background-color: #334;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 .challenge-card h2, .reward-card h3 {
     color: #f39c12;
 }
