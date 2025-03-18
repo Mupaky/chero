@@ -6,5 +6,9 @@
         <li><a th:href="@{/game/inventory}">Inventory</a></li>
         <li><a th:href="@{/game/shop}">Shop</a></li>
         <li><a th:href="@{/notifications}">Notifications</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+            <a th:href="@{/admin/manage-roles}">Manage User Roles</a>
+        </li>
+
     </ul>
 </nav>

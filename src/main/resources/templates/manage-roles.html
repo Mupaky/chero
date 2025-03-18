@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <link rel="stylesheet" th:href="@{/css/manage-roles.css}" />
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+</head>
+<body>
+
+<header th:replace="~{fragments/ingameheader :: header}"></header>
+
+<main class="admin-container">
+    <aside class="sidebar">
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
+    </aside>
+
+    <section class="user-management">
+        <h1>Manage Users</h1>
+
+        <div class="table-wrapper">
+            <table class="user-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nickname</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.gameCharacter.nickName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.userRole}"></td>
+                    <td>
+                        <a th:href="@{/admin/edit-user/{id}(id=${user.id})}" class="edit-btn">Edit</a>
+                        <a th:href="@{/admin/delete-user/{id}(id=${user.id})}" class="delete-btn">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a th:if="${currentPage > 0}" th:href="@{/admin/manage-roles(page=${currentPage - 1})}" class="page-btn">Previous</a>
+            <span th:text="'Page ' + (${currentPage + 1}) + ' of ' + ${totalPages}"></span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/admin/manage-roles(page=${currentPage + 1})}" class="page-btn">Next</a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

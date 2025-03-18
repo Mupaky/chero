@@ -42,7 +42,7 @@ public class User {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private UserRole userRole;
 
     @Column(nullable = false)
     private boolean isActive;

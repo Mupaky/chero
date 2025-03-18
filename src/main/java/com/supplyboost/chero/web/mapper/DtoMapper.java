@@ -5,6 +5,7 @@ import com.supplyboost.chero.game.character.model.ResourceType;
 import com.supplyboost.chero.game.stats.model.StatType;
 import com.supplyboost.chero.notification.client.dto.NotificationRequest;
 import com.supplyboost.chero.notification.client.dto.NotificationResponse;
+import com.supplyboost.chero.web.dto.AdminUserEditRequest;
 import com.supplyboost.chero.web.dto.GameCharacterHeaderResponse;
 import com.supplyboost.chero.web.dto.GameCharacterStatsResponse;
 import com.supplyboost.chero.web.dto.UserEditRequest;
@@ -45,6 +46,14 @@ public class DtoMapper {
                 .agility(gameCharacter.getStats().getStats().get(StatType.AGILITY))
                 .intelligence(gameCharacter.getStats().getStats().get(StatType.INTELLIGENCE))
                 .endurance(gameCharacter.getStats().getStats().get(StatType.ENDURANCE))
+                .build();
+    }
+
+    public static AdminUserEditRequest mapToAdminUserEditRequest(User user){
+        return AdminUserEditRequest.builder()
+                .characterName(user.getGameCharacter().getNickName())
+                .email(user.getEmail())
+                .userRole(user.getUserRole())
                 .build();
     }
 

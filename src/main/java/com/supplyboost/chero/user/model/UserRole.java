@@ -2,5 +2,5 @@ package com.supplyboost.chero.user.model;
 
 public enum UserRole {
 
-    ADMIN, USER;
+    ROLE_ADMIN, ROLE_USER;
 }

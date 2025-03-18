@@ -2,6 +2,7 @@ package com.supplyboost.chero.user.service;
 
 
 import com.supplyboost.chero.notification.service.NotificationService;
+import com.supplyboost.chero.web.dto.AdminUserEditRequest;
 import com.supplyboost.chero.web.dto.LoginRequest;
 import com.supplyboost.chero.web.dto.RegisterRequest;
 import com.supplyboost.chero.web.dto.UserEditRequest;
@@ -16,6 +17,8 @@ import com.supplyboost.chero.user.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -163,12 +167,26 @@ public class UserService implements UserDetailsService {
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getRole(),
+                user.getUserRole(),
                 user.isActive());
     }
 
+    public Page<User> findAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
 
+    public void adminUpdateUser(UUID userId, AdminUserEditRequest editRequest) {
+        User user = userRepository.getReferenceById(userId);
 
+        user.setUserRole(editRequest.getUserRole());
+        user.setEmail(editRequest.getEmail());
+        user.getGameCharacter().setNickName(editRequest.getCharacterName());
+
+        save(user);
+        characterService.save(user.getGameCharacter());
+
+        log.info("Admin [%s] successfully updated user [%s]".formatted(user.getUsername(), editRequest.getCharacterName()));
+    }
 
     private User initializeUser(RegisterRequest registerRequest){
 
@@ -176,7 +194,7 @@ public class UserService implements UserDetailsService {
                 .username(registerRequest.getUsername())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
-                .role(UserRole.USER)
+                .userRole(UserRole.ROLE_USER)
                 .isActive(true)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())

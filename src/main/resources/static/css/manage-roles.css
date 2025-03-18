@@ -1,0 +1,104 @@
+.admin-container {
+    display: flex;
+}
+
+.user-management {
+    flex-grow: 1;
+    background-color: #444;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(255,165,0,0.3);
+    border: 2px solid #f39c12;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-management h1 {
+    color: #f39c12;
+    border-bottom: 2px solid #f39c12;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Table Styling */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #222;
+    color: #d1d1d1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgba(255,165,0,0.3);
+}
+
+.user-table th, .user-table td {
+    padding: 10px;
+    border-bottom: 1px solid #f39c12;
+    text-align: left;
+}
+
+.user-table th {
+    background-color: #f39c12;
+    color: #111;
+    text-transform: uppercase;
+}
+
+.user-table tr:nth-child(even) {
+    background-color: #333;
+}
+
+/* Buttons */
+.edit-btn, .delete-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.edit-btn {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.edit-btn:hover {
+    background-color: #138496;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.page-btn {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #f39c12;
+    background-color: #f39c12;
+    color: #111;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.page-btn:hover {
+    background-color: #e67e22;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+    <link rel="stylesheet" th:href="@{/css/manage-roles.css}" />
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+</head>
+<body class="admin-theme">
+
+<header th:replace="~{fragments/ingameheader :: header}"></header>
+
+<main class="admin-container">
+    <aside class="sidebar">
+        <nav th:replace="~{fragments/menu :: menu}"></nav>
+    </aside>
+
+    <section class="user-management">
+        <h1>Edit User</h1>
+
+        <!-- Success and Error Messages -->
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <form th:action="@{/admin/update-user}" method="post" th:object="${adminUserEditRequest}" class="edit-user-form">
+            <input type="hidden" name="userId" th:value="${userId}" />
+
+            <label for="characterName">Character Name:</label>
+            <input type="text" id="characterName" name="characterName" th:field="*{characterName}" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:field="*{email}" required />
+
+            <label for="userRole">User Role:</label>
+            <select id="userRole" name="userRole" th:field="*{userRole}">
+                <option th:each="role : ${T(com.supplyboost.chero.user.model.UserRole).values()}"
+                        th:value="${role}" th:text="${role}"></option>
+            </select>
+
+            <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

@@ -272,7 +272,7 @@ public class CharacterService {
                 .health(1000)
                 .currentEnergy(90)
                 .energy(100)
-                .level(0)
+                .level(1)
                 .resources(resources)
                 .build();
     }
