@@ -40,10 +40,11 @@ public class NotificationService {
     }
 
     public void sendGreetings(UUID userId, String username){
-        NotificationRequest notificationRequest = NotificationRequest.builder()
-                .userId(userId)
-                .subject("Welcome to the Underground, %s.".formatted(username))
-                .body("""
+        try {
+            NotificationRequest notificationRequest = NotificationRequest.builder()
+                    .userId(userId)
+                    .subject("Welcome to the Underground, %s.".formatted(username))
+                    .body("""
                     Dear %s,
                 
                     Welcome to the Underground! We're thrilled to have you join our community. As a new member, you're about to embark on an exciting journey filled with challenges, rewards, and camaraderie.
@@ -62,11 +63,14 @@ public class NotificationService {
                 
                     The Underground Team
                     """.formatted(username))
-                .build();
-        ResponseEntity<NotificationResponse> httpResponse= notificationClient.sentGreetings(notificationRequest);
+                    .build();
+            ResponseEntity<NotificationResponse> httpResponse= notificationClient.sentGreetings(notificationRequest);
 
-        if(!httpResponse.getStatusCode().is2xxSuccessful()){
-            log.error("[Feign call to notification_svc failed] Can't sent email for user with id [%s].".formatted(userId));
+            if(!httpResponse.getStatusCode().is2xxSuccessful()){
+                log.error("[Feign call to notification_svc failed] Can't sent email for user with id [%s].".formatted(userId));
+            }
+        }catch (Exception e){
+
         }
 
     }

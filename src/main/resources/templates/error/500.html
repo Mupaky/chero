@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error - Underground Guardian</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}" />
+    <link rel="stylesheet" th:href="@{/css/ingame-theme.css}" />
+</head>
+<body class="error-theme">
+
+<header th:replace="~{fragments/ingameheader :: header}"></header>
+
+<main class="error-container">
+    <section class="error-content">
+        <h1>Something went wrong...</h1>
+        <p>It seems the shadows have swallowed this page.</p>
+
+        <div class="error-details">
+            <h2>Error Code: <span th:text="${status}">500</span></h2>
+            <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+        </div>
+
+        <a href="/" class="home-btn">Return to Safety</a>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
