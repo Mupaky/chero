@@ -10,22 +10,22 @@ Game Overview
   Venture into the Underground, collect resources, level up, and prove your worth.
 
 Tech Stack - Layer Technology
-  Language Java 23
-  Build Tool Gradle
-  Framework Spring Boot 3.4.2
-  Cloud Integration Spring Cloud with OpenFeign
-  Security Spring Security 6
-  Templating Thymeleaf with Spring Security integration
-  ORM and DB Spring Data JPA with MySQL
-  Validation Jakarta Validation
-  Monitoring Spring Boot Actuator
-  API Style RESTful
-  UI Server-rendered using Thymeleaf templates
-  Dependency Management Spring Dependency Management Plugin
-  Async Communication Feign Clients for external service calls like mail sending
-  Lombok Used for boilerplate code generation
-  Dev Tools Spring Boot Devtools for live reloading during development
-  Testing JUnit 5 and Spring Security Test
+  - Language Java 23
+  - Build Tool Gradle
+  - Framework Spring Boot 3.4.2
+  - Cloud Integration Spring Cloud with OpenFeign
+  - Security Spring Security 6
+  - Templating Thymeleaf with Spring Security integration
+  - ORM and DB Spring Data JPA with MySQL
+  - Validation Jakarta Validation
+  - Monitoring Spring Boot Actuator
+  - API Style RESTful
+  - UI Server-rendered using Thymeleaf templates
+  - Dependency Management Spring Dependency Management Plugin
+  - Async Communication Feign Clients for external service calls like mail sending
+  - Lombok Used for boilerplate code generation
+  - Dev Tools Spring Boot Devtools for live reloading during development
+  - Testing JUnit 5 and Spring Security Test
 
 Project Structure
 
