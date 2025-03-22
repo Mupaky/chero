@@ -101,11 +101,11 @@ How to Run
 
   Clone and Run
 
-  - git clone https colon slash slash github dot com slash your-repo slash underground-guardian dot git
-  - cd underground-guardian
-  - ./mvnw spring-boot colon run
+  - git clone https://github.com/Mupaky/chero.git
+  - cd chero
+  - ./gradlew bootRun
   
-  Configuration application.properties
+  Configuration application.properties - You will need to change this setting for the project to run.
 
   - spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
   - spring.datasource.url equals jdbc colon postgresql colon slash slash localhost colon 5432 slash guardian
