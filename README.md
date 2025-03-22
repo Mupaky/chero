@@ -101,19 +101,19 @@ How to Run
 
   Clone and Run
 
-  git clone https colon slash slash github dot com slash your-repo slash underground-guardian dot git
-  cd underground-guardian
-  ./mvnw spring-boot colon run
+  - git clone https colon slash slash github dot com slash your-repo slash underground-guardian dot git
+  - cd underground-guardian
+  - ./mvnw spring-boot colon run
   
   Configuration application.properties
 
-  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-  spring.datasource.url equals jdbc colon postgresql colon slash slash localhost colon 5432 slash guardian
-  spring.datasource.username equals your_db_user
-  spring.datasource.password equals your_password
-  spring.jpa.hibernate.ddl-auto equals update
-  spring.security.user.name=
-  spring.security.user.password=
-  spring.web.resources.static-locations=file:src/main/resources/static/
+  - spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+  - spring.datasource.url equals jdbc colon postgresql colon slash slash localhost colon 5432 slash guardian
+  - spring.datasource.username equals your_db_user
+  - spring.datasource.password equals your_password
+  - spring.jpa.hibernate.ddl-auto equals update
+  - spring.security.user.name=
+  - spring.security.user.password=
+  - spring.web.resources.static-locations=file:src/main/resources/static/
 
-  server.port=8082 change to your desire port
+  - server.port=8082 change to your desire port
