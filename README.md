@@ -82,6 +82,7 @@ Project Structure
 - Progression
 
   Characters level up by gaining EXP. Level-up triggers custom notifications.
+  Stats upgrading by using gold.
 
 - Resource Handling
 
