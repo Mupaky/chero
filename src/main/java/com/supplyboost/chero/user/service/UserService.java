@@ -33,7 +33,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -89,7 +88,8 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.save(initializeUser(registerRequest));
 
-        subscriptionService.createDefaultSubscription(user);
+        //To be added in the User model if needed
+//        subscriptionService.createDefaultSubscription(user);
         GameCharacter gameCharacter = characterService.createGameCharacter(user);
 
         notificationService.saveNotificationPreference(user.getId(), true, user.getEmail());
@@ -114,14 +114,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User getById(UUID id) {
-        Optional<User> userOptional = userRepository.findById(id);
-
-        if(userOptional.isEmpty()){
-            throw new DomainException("User with id [%s] does not exist please contact administrator.".formatted(id));
-        }
-
-        return userOptional.get();
+        return userRepository.findById(id).orElseThrow(() -> new DomainException("User with id [%s] does not exist please contact administrator.".formatted(id)));
     }
+
 
     public void editUserDetails(UUID userId, UserEditRequest userEditRequest, MultipartFile profilePictureFile){
         User user = getById(userId);
@@ -136,16 +131,18 @@ public class UserService implements UserDetailsService {
                 String contentType = profilePictureFile.getContentType();
                 assert contentType != null;
                 if (!(contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/webp"))) {
-                    return;
+
+                }else{
+                    String fileName = UUID.randomUUID() + "." + contentType.split("/")[1];
+                    Path filePath = Paths.get(uploadDir + "/" + fileName);
+                    Files.write(filePath, profilePictureFile.getBytes());
+
+                    user.setProfile_picture("/uploads/" + fileName);
                 }
 
-                String fileName = UUID.randomUUID() + "." + contentType.split("/")[1];
-                Path filePath = Paths.get(uploadDir + "/" + fileName);
-                Files.write(filePath, profilePictureFile.getBytes());
 
-                user.setProfile_picture("/uploads/" + fileName);
             } catch (IOException e) {
-                return;
+
             }
         }
 
@@ -176,7 +173,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void adminUpdateUser(UUID userId, AdminUserEditRequest editRequest) {
-        User user = userRepository.getReferenceById(userId);
+        User user = getById(userId);
 
         user.setUserRole(editRequest.getUserRole());
         user.setEmail(editRequest.getEmail());

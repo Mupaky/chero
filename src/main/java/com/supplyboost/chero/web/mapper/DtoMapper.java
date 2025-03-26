@@ -19,7 +19,6 @@ public class DtoMapper {
 
     public static UserEditRequest mapToUserEditRequest(User user){
         return UserEditRequest.builder()
-                .profilePicture(user.getProfile_picture())
                 .email(user.getEmail())
                 .characterName(user.getGameCharacter().getNickName())
                 .build();

@@ -1,7 +1,6 @@
 package com.supplyboost.chero.game.shop.service;
 
 import com.supplyboost.chero.game.stats.model.StatType;
-import com.supplyboost.chero.game.stats.model.Stats;
 import com.supplyboost.chero.game.item.model.Item;
 import com.supplyboost.chero.game.item.model.ItemType;
 import com.supplyboost.chero.game.item.repository.ItemRepository;
@@ -29,11 +28,9 @@ public class ShopDataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Check if a Shop exists; alternatively, you can check if there are any items
         if (shopRepository.count() == 0) {
             Shop shop = Shop.builder().build();
             List<Item> templates = createItemTemplates();
-            // Save items first (if needed) then assign them to the shop
             templates.forEach(itemRepository::save);
             shop.setItems(templates);
             shopRepository.save(shop);

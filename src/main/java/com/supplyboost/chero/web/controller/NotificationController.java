@@ -32,7 +32,7 @@ public class NotificationController {
 
         User user = userService.getById(authenticationMetadata.getUserId());
         GameCharacterHeaderResponse gameCharacterHeaderResponse = DtoMapper.mapToGameCharacterHeaderResponse(user.getGameCharacter());
-        NotificationPreferenceResponse notificationPreferenceResponse = notificationService.getNotificationPreference(user.getId());
+        NotificationPreferenceResponse notificationPreferenceResponse = notificationService.getNotificationPreference(user.getId(), false, user.getEmail());
 
         ModelAndView modelAndView = new ModelAndView("notifications");
         modelAndView.addObject("gameCharacter", gameCharacterHeaderResponse);

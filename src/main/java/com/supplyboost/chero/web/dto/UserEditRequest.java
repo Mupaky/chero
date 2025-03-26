@@ -17,6 +17,4 @@ public class UserEditRequest {
 
     @Email
     private String email;
-
-    private String profilePicture;
 }

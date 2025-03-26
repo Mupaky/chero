@@ -25,7 +25,7 @@ public class AuthController {
     @GetMapping("/register")
     public ModelAndView getRegisterPage(){
         ModelAndView modelAndView = new ModelAndView("register");
-        modelAndView.addObject("registerRequest", new RegisterRequest());
+        modelAndView.addObject("registerRequest", RegisterRequest.builder().build());
 
         return modelAndView;
     }
