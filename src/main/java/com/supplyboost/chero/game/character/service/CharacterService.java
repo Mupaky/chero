@@ -96,10 +96,9 @@ public class CharacterService {
 
         if(spendMoney(characterId, item.getPrice())){
             itemService.cloneTemplate(item, character.getInventory());
+            characterRepository.save(character);
             log.info("Character resource: [%s]".formatted(character.getResources().get(ResourceType.GOLD)));
         }
-
-        characterRepository.save(character);
     }
 
     public void trainStat(UUID gameCharacterId, StatType statType) {
@@ -226,7 +225,7 @@ public class CharacterService {
         }
     }
 
-    private void levelUp(GameCharacter character) {
+    public void levelUp(GameCharacter character) {
         character.setExperience(character.getExperience() - character.getExpForNextLevelUp());
         character.setLevel(character.getLevel() + 1);
         character.setExpForNextLevelUp((int)(character.getExpForNextLevelUp() * 1.2));
@@ -251,7 +250,7 @@ public class CharacterService {
         return resources;
     }
 
-    private GameCharacter getCharacter(UUID characterId) {
+    public GameCharacter getCharacter(UUID characterId) {
         Optional<GameCharacter> character = characterRepository.findById(characterId);
 
         if(character.isEmpty()){

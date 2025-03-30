@@ -1,4 +1,4 @@
-package com.supplyboost.chero.game.character.events;
+package com.supplyboost.chero.game.character.service;
 
 import com.supplyboost.chero.user.model.User;
 import com.supplyboost.chero.user.service.UserService;

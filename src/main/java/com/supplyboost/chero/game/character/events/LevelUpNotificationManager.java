@@ -1,6 +1,7 @@
 package com.supplyboost.chero.game.character.events;
 
 import com.supplyboost.chero.game.character.model.GameCharacter;
+import com.supplyboost.chero.game.character.service.NotificationEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

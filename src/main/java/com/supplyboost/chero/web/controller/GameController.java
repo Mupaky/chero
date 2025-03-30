@@ -1,7 +1,7 @@
 package com.supplyboost.chero.web.controller;
 
 
-import com.supplyboost.chero.game.character.events.NotificationEventService;
+import com.supplyboost.chero.game.character.service.NotificationEventService;
 import com.supplyboost.chero.game.character.service.CharacterService;
 import com.supplyboost.chero.game.fight.service.FightService;
 import com.supplyboost.chero.game.item.model.Item;

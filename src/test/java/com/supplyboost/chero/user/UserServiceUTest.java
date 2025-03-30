@@ -10,6 +10,7 @@ import com.supplyboost.chero.user.model.UserRole;
 import com.supplyboost.chero.user.repository.UserRepository;
 import com.supplyboost.chero.user.service.UserService;
 import com.supplyboost.chero.web.dto.AdminUserEditRequest;
+import com.supplyboost.chero.web.dto.LoginRequest;
 import com.supplyboost.chero.web.dto.RegisterRequest;
 import com.supplyboost.chero.web.dto.UserEditRequest;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,12 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +33,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -279,6 +286,137 @@ public class UserServiceUTest {
         verify(notificationService, times(1)).sendGreetings(user.getId(), user.getUsername());
     }
 
+    //findByUsername
+    @Test
+    void givenUsername_whenFindByUsernameInDatabase_thenReturnDomainExceptionUserDoesNotExist(){
+        String username = "fakeUsername";
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        DomainException domainException = assertThrows(DomainException.class, () -> userService.findByUsername(username));
+        assertTrue(domainException.getMessage().contains("does not exist"));
+    }
+
+    //findByUsername
+    @Test
+    void givenUsername_whenFindByUsernameInDatabase_thenReturnExistingUser(){
+        User user = User.builder()
+                .username("fakeUsername")
+                .build();
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+
+        User returnedUser = userService.findByUsername(user.getUsername());
+
+        assertNotNull(returnedUser);
+        assertEquals(user.getUsername(), returnedUser.getUsername());
+    }
+
+    //loadUserByUsername
+    @Test
+    void givenUsername_whenLoadUserByUsername_thenThrowUsernameNotFoundException(){
+        String username = "fakeUsername";
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        DomainException domainException = assertThrows(DomainException.class, () -> userService.loadUserByUsername(username));
+        assertTrue(domainException.getMessage().contains("does not exist"));
+
+    }
+
+    //loadUserByUsername
+    @Test
+    void givenUsername_whenLoadUserByUsername_thenReturnAuthenticationMetadata(){
+        User user = User.builder()
+                .username("fakeUsername")
+                .password("testPassword")
+                .build();
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+
+        UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
+
+        assertNotNull(userDetails);
+        assertEquals(user.getUsername(), userDetails.getUsername());
+        assertEquals(user.getPassword(), userDetails.getPassword());
+
+        verify(userRepository, times(1)).findByUsername(user.getUsername());
+
+    }
+
+    //findAllUsers
+    @Test
+    void givenPage_whenSearchingForAllUsers_thenReturnAllExistingUsers(){
+        Pageable pageable = PageRequest.of(0, 2);
+
+        List<User> users = List.of(new User(), new User());
+        Page<User> userPage = new PageImpl<>(users, pageable, users.size());
+
+        when(userRepository.findAll(pageable)).thenReturn(userPage);
+
+        Page<User> result = userService.findAllUsers(pageable);
+
+        assertThat(result).hasSize(2);
+        assertEquals(pageable.getPageSize(), result.getContent().size());
+
+        verify(userRepository, times(1)).findAll(pageable);
+    }
+
+    //Login
+    @Test
+    void givenLoginRequest_whenSingInNotExistingUser_thenReturnDomainException(){
+        LoginRequest loginRequest = LoginRequest.builder()
+                .username("test")
+                .password("testPassword")
+                .build();
+
+        when(userRepository.findByUsername(loginRequest.getUsername())).thenReturn(Optional.empty());
+
+        assertThrows(DomainException.class, () ->  userService.login(loginRequest));
+
+    }
+
+    //Login
+    @Test
+    void givenLoginRequest_whenSingInWithWrongPassword_thenReturnDomainException(){
+        LoginRequest loginRequest = LoginRequest.builder()
+                .username("test")
+                .password("testPassword")
+                .build();
+
+        User user = User.builder()
+                .username(loginRequest.getUsername())
+                .password("wrongPassword")
+                .build();
+
+        when(userRepository.findByUsername(loginRequest.getUsername())).thenReturn(Optional.of(user));
+
+        assertThrows(DomainException.class, () ->  userService.login(loginRequest));
+    }
+
+    //Login
+    @Test
+    void givenLoginRequest_whenSingInWithCorrectParameters_thenReturnTheLoggedInUser(){
+
+        LoginRequest loginRequest = LoginRequest.builder()
+                .username("test")
+                .password("testPassword")
+                .build();
+
+        User user = User.builder()
+                .username(loginRequest.getUsername())
+                .password("testPassword")
+                .build();
+
+        when(userRepository.findByUsername(loginRequest.getUsername())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())).thenReturn(true);
+
+        User singInUser = userService.login(loginRequest);
+
+        assertNotNull(singInUser);
+        assertEquals(loginRequest.getUsername(), singInUser.getUsername());
+        assertEquals(loginRequest.getPassword(), singInUser.getPassword());
+    }
 
 
     User getUserMock(UUID userId){

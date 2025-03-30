@@ -42,8 +42,6 @@ public class NotificationService {
             log.error("[Feign call to notification_svc failed] Can't save user notification preference for user with id [%s]. Error code [%s]".formatted(userId, e.getMessage()));
         }
 
-
-
     }
 
     public void sendGreetings(UUID userId, String username){

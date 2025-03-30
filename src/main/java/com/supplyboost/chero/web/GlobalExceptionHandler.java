@@ -1,11 +1,6 @@
 package com.supplyboost.chero.web;
 
-import com.supplyboost.chero.user.model.User;
-import com.supplyboost.chero.user.service.UserService;
-import com.supplyboost.chero.web.dto.GameCharacterHeaderResponse;
-import com.supplyboost.chero.web.mapper.DtoMapper;
 import org.springframework.beans.TypeMismatchException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,12 +12,6 @@ import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private final UserService userService;
-
-    @Autowired
-    public GlobalExceptionHandler(UserService userService) {
-        this.userService = userService;
-    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)

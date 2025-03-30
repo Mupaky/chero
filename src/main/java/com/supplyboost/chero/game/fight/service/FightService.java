@@ -1,6 +1,6 @@
 package com.supplyboost.chero.game.fight.service;
 
-import com.supplyboost.chero.game.character.events.NotificationEventService;
+import com.supplyboost.chero.game.character.service.NotificationEventService;
 import com.supplyboost.chero.game.character.model.GameCharacter;
 import com.supplyboost.chero.game.character.model.ResourceType;
 import com.supplyboost.chero.game.character.service.CharacterService;
@@ -31,12 +31,12 @@ public class FightService {
         if(character.getCurrentEnergy() > 0){
             character.setCurrentEnergy(character.getCurrentEnergy() - 1);
         }else{
-            notificationEventService.notify(user, "🎉 Out of energy. Please rest!");
+            notificationEventService.notify(user, "Out of energy. Please rest!");
             return;
         }
 
         if(character.getCurrentHealth() <= 0){
-            notificationEventService.notify(user, "🎉 You are hurt and have no health. Please rest!");
+            notificationEventService.notify(user, "You are hurt and have no health. Please rest!");
             return;
         }
 
@@ -46,19 +46,19 @@ public class FightService {
             Map<String, Integer> rewards = applyVictoryRewards(difficulty);
             characterService.addExperience(character, rewards.get("Experience"));
             characterService.addResourceAmount(character.getId(), ResourceType.GOLD, rewards.get("Gold"));
-            notificationEventService.notify(user, "🎉 You won the fight against " + difficulty + " monster!");
+            notificationEventService.notify(user, "You won the fight against [%s] monster!".formatted(difficulty));
 
             if (character.getLevel() > previousLevel) {
-                notificationEventService.notify(user, "✨ Congratulations! You reached level " + character.getLevel() + "!");
+                notificationEventService.notify(user, "Congratulations! You reached level [%s]!".formatted(character.getLevel()));
             }
         } else {
             applyDefeatPenalties(character, difficulty);
             characterService.save(character);
-            notificationEventService.notify(user, "💥 You lost the fight. Try again!");
+            notificationEventService.notify(user, "You lost the fight. Try again!");
         }
     }
 
-    private int getWinChance(String difficulty) {
+    public int getWinChance(String difficulty) {
         return switch (difficulty.toUpperCase()) {
             case "EASY" -> 70;
             case "MEDIUM" -> 50;
@@ -67,7 +67,7 @@ public class FightService {
         };
     }
 
-    private Map<String, Integer> applyVictoryRewards(String difficulty) {
+    public Map<String, Integer> applyVictoryRewards(String difficulty) {
         Map<String, Integer> rewards = new HashMap<>();
         int experience = 0;
         int gold = 0;
@@ -92,7 +92,7 @@ public class FightService {
         return rewards;
     }
 
-    private void applyDefeatPenalties(GameCharacter character, String difficulty) {
+    public void applyDefeatPenalties(GameCharacter character, String difficulty) {
         switch (difficulty.toUpperCase()) {
             case "EASY":
                 character.setCurrentHealth(Math.max(character.getCurrentHealth() - 15, 0));

@@ -5,6 +5,7 @@ import com.supplyboost.chero.web.dto.RegisterRequest;
 import com.supplyboost.chero.user.model.User;
 import com.supplyboost.chero.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerUser(@ModelAttribute RegisterRequest registerRequest, BindingResult bindingResult){
+    public ModelAndView registerUser(@Valid @ModelAttribute RegisterRequest registerRequest, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return new ModelAndView("auth/register");
         }
@@ -44,7 +45,7 @@ public class AuthController {
     @GetMapping("/login")
     public ModelAndView getLoginPage(){
         ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("loginRequest", new LoginRequest());
+        modelAndView.addObject("loginRequest", LoginRequest.builder().build());
 
         return modelAndView;
     }
@@ -68,7 +69,7 @@ public class AuthController {
     public ModelAndView logout(HttpSession session){
         session.invalidate();
         ModelAndView modelAndView = new ModelAndView("redirect:/login");
-        modelAndView.addObject("loginRequest", new LoginRequest());
+        modelAndView.addObject("loginRequest", LoginRequest.builder().build());
 
         return modelAndView;
     }

@@ -61,7 +61,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public User login(LoginRequest loginRequest){
+    public User login(LoginRequest loginRequest) throws DomainException{
         Optional<User> optionalUser = userRepository.findByUsername(loginRequest.getUsername());
 
         if(optionalUser.isEmpty()){
@@ -78,7 +78,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User register(RegisterRequest registerRequest){
+    public User register(RegisterRequest registerRequest) throws DomainException{
 
         Optional<User> userOptional = userRepository.findByUsername(registerRequest.getUsername());
 
@@ -103,7 +103,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User findByUsername(String username) {
+    public User findByUsername(String username) throws DomainException{
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if(userOptional.isEmpty()){
@@ -178,11 +178,14 @@ public class UserService implements UserDetailsService {
         user.setUserRole(editRequest.getUserRole());
         user.setEmail(editRequest.getEmail());
         user.getGameCharacter().setNickName(editRequest.getCharacterName());
+        if(!user.getEmail().equals("admin@underground.com")){
+            save(user);
+            characterService.save(user.getGameCharacter());
 
-        save(user);
-        characterService.save(user.getGameCharacter());
+            log.info("Admin [%s] successfully updated user [%s]".formatted(user.getUsername(), editRequest.getCharacterName()));
+        }
+        log.info("Admin [%s] failed to updated The Moderator [%s]".formatted(user.getUsername(), editRequest.getCharacterName()));
 
-        log.info("Admin [%s] successfully updated user [%s]".formatted(user.getUsername(), editRequest.getCharacterName()));
     }
 
     private User initializeUser(RegisterRequest registerRequest){
