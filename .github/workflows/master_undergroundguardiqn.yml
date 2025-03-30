@@ -24,6 +24,9 @@ jobs:
           java-version: '21.0.0'
           distribution: 'microsoft'
 
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew build
 
