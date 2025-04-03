@@ -19,6 +19,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/");
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/");
     }
 
 
@@ -53,7 +55,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                                 "notifications",
                                 "notifications/preferences/toggle",
 
-                                "users/profile/edit"
+                                "users/profile/edit",
+                                "swagger-ui/**"
                         ).permitAll()
                         .requestMatchers("/css/**",
                                 "/js/**",

@@ -90,7 +90,7 @@ public class NotificationService {
             }
 
             return httpResponse.getBody();
-        } catch (FeignException e) {
+        } catch (Exception e) {
             saveNotificationPreference(userId, isEmailEnabled, email);
             ResponseEntity<NotificationPreferenceResponse> httpResponse = notificationClient.getNotificationPreference(userId);
             return httpResponse.getBody();
