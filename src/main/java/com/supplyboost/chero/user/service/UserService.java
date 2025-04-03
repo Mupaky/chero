@@ -1,6 +1,8 @@
 package com.supplyboost.chero.user.service;
 
 
+import com.supplyboost.chero.event.UserRegisteredEventProducer;
+import com.supplyboost.chero.event.payload.UserRegisteredEvent;
 import com.supplyboost.chero.notification.service.NotificationService;
 import com.supplyboost.chero.web.dto.AdminUserEditRequest;
 import com.supplyboost.chero.web.dto.LoginRequest;
@@ -46,14 +48,16 @@ public class UserService implements UserDetailsService {
     private final SubscriptionService subscriptionService;
     private final CharacterService characterService;
     private final NotificationService notificationService;
+    private final UserRegisteredEventProducer userRegisteredEventProducer;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SubscriptionService subscriptionService, CharacterService characterService, NotificationService notificationService){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SubscriptionService subscriptionService, CharacterService characterService, NotificationService notificationService, UserRegisteredEventProducer userRegisteredEventProducer){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.subscriptionService = subscriptionService;
         this.characterService = characterService;
         this.notificationService = notificationService;
+        this.userRegisteredEventProducer = userRegisteredEventProducer;
     }
 
     public void save(User user) {
@@ -93,6 +97,15 @@ public class UserService implements UserDetailsService {
         GameCharacter gameCharacter = characterService.createGameCharacter(user);
 
         notificationService.saveNotificationPreference(user.getId(), true, user.getEmail());
+
+
+        UserRegisteredEvent event = UserRegisteredEvent.builder()
+                .userId(user.getId())
+                .createdOn(user.getCreatedOn())
+                .build();
+        userRegisteredEventProducer.sendEvent(event);
+
+
         notificationService.sendGreetings(user.getId(), user.getUsername());
 
         log.info("Successfully create new user account [%s] and id [%s]".formatted(user.getUsername(), user.getId()));
