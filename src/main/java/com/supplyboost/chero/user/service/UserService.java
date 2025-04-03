@@ -99,11 +99,11 @@ public class UserService implements UserDetailsService {
         notificationService.saveNotificationPreference(user.getId(), true, user.getEmail());
 
 
-        UserRegisteredEvent event = UserRegisteredEvent.builder()
-                .userId(user.getId())
-                .createdOn(user.getCreatedOn())
-                .build();
-        userRegisteredEventProducer.sendEvent(event);
+//        UserRegisteredEvent event = UserRegisteredEvent.builder()
+//                .userId(user.getId())
+//                .createdOn(user.getCreatedOn())
+//                .build();
+//        userRegisteredEventProducer.sendEvent(event);
 
 
         notificationService.sendGreetings(user.getId(), user.getUsername());
