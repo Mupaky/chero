@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.supplyboost'
-version = '0.0.2'
+version = '0.0.5'
 
 java {
 	toolchain {

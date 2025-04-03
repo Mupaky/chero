@@ -140,9 +140,7 @@ public class NotificationServiceUTest {
 
         when(notificationClient.getNotificationPreference(userId)).thenReturn(badResponse);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            notificationService.getNotificationPreference(userId, true, "test@test.com");
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> notificationService.getNotificationPreference(userId, true, "test@test.com"));
 
         assertTrue(exception.getMessage().contains("does not exist"));
     }
