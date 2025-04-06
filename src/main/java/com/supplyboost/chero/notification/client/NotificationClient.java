@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
-@FeignClient(name = "notification-svc", url = "http://localhost:8083/api/v1/notifications")
+@FeignClient(name = "notification-svc",  url = "${notification.service.url}")
 public interface NotificationClient {
 
     @PostMapping("/preferences")

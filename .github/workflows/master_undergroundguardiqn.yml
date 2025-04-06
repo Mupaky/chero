@@ -12,6 +12,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+          MYSQL_ROOT_PASSWORD: root_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -26,6 +41,17 @@ jobs:
 
       - name: Make Gradle Wrapper Executable
         run: chmod +x gradlew
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+              if mysqladmin ping -h 127.0.0.1 -P ${{ job.services.mysql.ports['3306'] }} --silent; then
+                echo "MySQL is up!"
+                exit 0
+              fi
+              echo "Waiting for MySQL..."
+              sleep 2
+            done
+            exit 1    
 
       - name: Build with Gradle
         run: ./gradlew build
